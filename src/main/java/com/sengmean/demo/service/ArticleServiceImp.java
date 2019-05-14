@@ -4,11 +4,13 @@ package com.sengmean.demo.service;
 import com.sengmean.demo.model.Article;
 import com.sengmean.demo.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Created by Sengmean 9/4/2019
+ */
 @Service
 public class ArticleServiceImp implements ArticleService {
 

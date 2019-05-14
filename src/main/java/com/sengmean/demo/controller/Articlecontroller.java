@@ -1,6 +1,7 @@
 package com.sengmean.demo.controller;
 
 import com.sengmean.demo.model.Article;
+import com.sengmean.demo.pojo.Constant;
 import com.sengmean.demo.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
@@ -15,6 +16,7 @@ import java.util.List;
 //@RequestMapping("/rest/article")
 public class Articlecontroller {
 
+    @Autowired
     private ArticleService articleService;
 
     @Autowired
@@ -50,8 +52,10 @@ public class Articlecontroller {
     @RequestMapping(value = "/Articles/{id}", method = RequestMethod.GET)
     public Article findArticleById(@PathVariable("id") Integer id) {
         if (id != null) {
+            final String message1 = Constant.SUCCESSFUL;
             return articleService.findById(id);
         } else {
+            final String message = Constant.FAIL;
             return null;
         }
     }
