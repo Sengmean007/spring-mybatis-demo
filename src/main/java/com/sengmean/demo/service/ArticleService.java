@@ -12,7 +12,7 @@ public interface ArticleService {
 
     List<Article> findAll();
 
-    Article saveArticle(Article article);
+    List<Article> saveArticle(Article article);
 
     boolean update(int id);
 

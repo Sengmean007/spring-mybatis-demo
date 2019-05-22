@@ -16,7 +16,7 @@ public class ArticleServiceImp implements ArticleService {
 
     private ArticleRepository articleRepository;
 
-    @Autowired(required = true)
+    @Autowired
     public ArticleServiceImp(ArticleRepository articleRepository) {
         this.articleRepository = articleRepository;
     }
@@ -27,13 +27,13 @@ public class ArticleServiceImp implements ArticleService {
     }
 
     @Override
-    public Article saveArticle(Article article) {
-        return (Article) articleRepository.saveArticle(article);
+    public List<Article> saveArticle(Article article) {
+        return articleRepository.saveArticle(article);
     }
 
     @Override
     public boolean update(int id) {
-        return false;
+        return articleRepository.update(id);
     }
 
     @Override
@@ -43,8 +43,7 @@ public class ArticleServiceImp implements ArticleService {
 
     @Override
     public boolean deleteById(int id) {
-        articleRepository.deleteById(id);
-        return false;
+       return articleRepository.deleteById(id);
     }
 
     @Override

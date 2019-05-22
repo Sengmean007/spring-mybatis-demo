@@ -48,7 +48,9 @@ public interface ArticleRepository {
     })
     List<Article> saveArticle(Article article);
 
+    @Update("update table articles set (name =#{name}, gender =#{gender}, address =#{address}, phone =#{phone where id =#{id}})")
     boolean update(int id);
+
     @Delete(value = "Delete from articles where id =#{id}")
     boolean deleteById(int id);
 

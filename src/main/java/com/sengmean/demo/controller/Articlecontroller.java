@@ -4,19 +4,20 @@ import com.sengmean.demo.model.Article;
 import com.sengmean.demo.pojo.Constant;
 import com.sengmean.demo.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Sengmean 01/04/2019
  */
 @RestController
-//@RequestMapping("/rest/article")
+@RequestMapping("/rest/article")
 public class Articlecontroller {
 
-    @Autowired
     private ArticleService articleService;
 
     @Autowired
@@ -24,6 +25,11 @@ public class Articlecontroller {
         this.articleService = articleService;
     }
 
+    /**
+     * To get all articles
+     * @param model
+     * @return
+     */
    @RequestMapping(value = "/allArticle", method = RequestMethod.GET)
     public List<Article> articlePage(ModelMap model) {
         List<Article> articles = articleService.findAllarticle();
@@ -31,7 +37,11 @@ public class Articlecontroller {
         return articles;
     }
 
-
+    /**
+     * To find all Articles
+     * @param map
+     * @return
+     */
     @RequestMapping(value = "/Articles", method = RequestMethod.GET)
     public List<Article> homePage(ModelMap map) {
       List<Article> articles = articleService.findAll();
@@ -39,13 +49,8 @@ public class Articlecontroller {
       return articles;
     }
 
- /*   @GetMapping("/all")
-    public @ResponseBody List<Article> findAllArticle() {
-        return articleService.findAll();
-    }*/
-
     /**
-     *
+     * To find article by Id
      * @param id
      * @return
      */
@@ -61,7 +66,7 @@ public class Articlecontroller {
     }
 
     /**
-     *
+     * To deleted article by id
      * @param id
      * @return
      */
@@ -75,13 +80,47 @@ public class Articlecontroller {
     }
 
     /**
-     *
+     * To created new article
      * @param article
      * @return
      */
-    @PostMapping("/Article")
-    public List<Article> createArticle(@RequestBody Article article) {
-       // Article saveArt = articleService.saveArticle(article);
+    @RequestMapping(value = "/Article/add", method = RequestMethod.POST)
+    public List<Article> createArticle(@RequestBody Article article, Model model) {
+
+        if (article.equals("")) { // check if article equals null
+            List<Article> articles = new ArrayList<>();
+            article.setName(article.getName());
+            article.setGender(article.getGender());
+            article.setAddress(article.getAddress());
+            article.setPhone(article.getPhone());
+            articles.add(article);
+
+            model.addAttribute("articles", articles);
+            String message = Constant.SUCCESSFUL;
+            return articleService.saveArticle((Article) articles);
+        } else {
+            String message = Constant.FAIL;
+        }
         return null;
+    }
+
+    /**
+     * To update article by id
+     * @param id
+     */
+    @RequestMapping(value = "/Article/update/{id}", method = RequestMethod.PUT)
+    public void updateArticle(Integer id) {
+
+        Article article = new Article();
+        if (article.getId() == 0) {
+            article.setName("");
+            article.setAddress("");
+            article.setGender("");
+            article.setPhone("");
+            articleService.update(id);
+            String message = Constant.SUCCESSFUL;
+        } else {
+            String message = Constant.FAIL;
+        }
     }
 }
