@@ -1,9 +1,12 @@
 package com.sengmean.demo.controller;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.sengmean.demo.model.Article;
 import com.sengmean.demo.pojo.Constant;
 import com.sengmean.demo.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +18,7 @@ import java.util.List;
  * Sengmean 01/04/2019
  */
 @RestController
-@RequestMapping("/rest/article")
+@RequestMapping("/article")
 public class Articlecontroller {
 
     private ArticleService articleService;
@@ -26,27 +29,13 @@ public class Articlecontroller {
     }
 
     /**
-     * To get all articles
-     * @param model
+     * Get all Article
      * @return
      */
-   @RequestMapping(value = "/allArticle", method = RequestMethod.GET)
-    public List<Article> articlePage(ModelMap model) {
+   @RequestMapping
+    public ResponseEntity getAll(){
         List<Article> articles = articleService.findAllarticle();
-        model.addAttribute("article", articles);
-        return articles;
-    }
-
-    /**
-     * To find all Articles
-     * @param map
-     * @return
-     */
-    @RequestMapping(value = "/Articles", method = RequestMethod.GET)
-    public List<Article> homePage(ModelMap map) {
-      List<Article> articles = articleService.findAll();
-       map.addAttribute("articles",articles);
-      return articles;
+        return new ResponseEntity(articles, HttpStatus.MULTI_STATUS.OK);
     }
 
     /**
@@ -54,15 +43,17 @@ public class Articlecontroller {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/Articles/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Article findArticleById(@PathVariable("id") Integer id) {
         if (id != null) {
-            final String message1 = Constant.SUCCESSFUL;
-            return articleService.findById(id);
+            articleService.findById(id);
+            String message1 = Constant.SUCCESSFUL;
+            System.out.println("Article is founded");
         } else {
-            final String message = Constant.FAIL;
-            return null;
+            String message = Constant.FAIL;
+            System.out.println("Article is founded");
         }
+        return null;
     }
 
     /**
@@ -70,12 +61,15 @@ public class Articlecontroller {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/Articles/remove/{id}", method = RequestMethod.GET)
-    public boolean deleteArticle(@PathVariable("id") Integer id) {
+    @RequestMapping
+    public void deleteArticle(@RequestParam("id") String id) {
         if (id != null){
-            return articleService.deleteById(id);
+            articleService.deleteById(id);
+            String message = Constant.SUCCESSFUL;
+            System.out.println("Deleted " + message);
         } else {
-            return false;
+            String message = Constant.FAIL;
+            System.out.println("Delete " + message);
         }
     }
 
@@ -84,43 +78,35 @@ public class Articlecontroller {
      * @param article
      * @return
      */
-    @RequestMapping(value = "/Article/add", method = RequestMethod.POST)
-    public List<Article> createArticle(@RequestBody Article article, Model model) {
-
-        if (article.equals("")) { // check if article equals null
-            List<Article> articles = new ArrayList<>();
-            article.setName(article.getName());
-            article.setGender(article.getGender());
-            article.setAddress(article.getAddress());
-            article.setPhone(article.getPhone());
-            articles.add(article);
-
-            model.addAttribute("articles", articles);
-            String message = Constant.SUCCESSFUL;
-            return articleService.saveArticle((Article) articles);
-        } else {
-            String message = Constant.FAIL;
-        }
-        return null;
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public ResponseEntity<?> createArticle(@RequestBody Article article) {
+        articleService.saveArticle(article);
+        String message = Constant.SUCCESSFUL;
+       return new ResponseEntity<>("Article save "+message, HttpStatus.OK);
     }
 
     /**
      * To update article by id
      * @param id
      */
-    @RequestMapping(value = "/Article/update/{id}", method = RequestMethod.PUT)
-    public void updateArticle(Integer id) {
-
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+    public void updateArticle(int id) {
+        articleService.findById(id);
         Article article = new Article();
-        if (article.getId() == 0) {
-            article.setName("");
-            article.setAddress("");
-            article.setGender("");
-            article.setPhone("");
+        if ((article.getId() == 0) || (article.equals("") )){
+            article.setName("Hot news");
+            article.setAddress("Phnom penh");
+            article.setGender("Male");
+            article.setPhone("0987676564");
+            articleService.saveArticle(article);
+            String message = Constant.SUCCESSFUL;
+            System.out.println("Save "+ message);
+        } else {
+            article.setName("Hot Dara");
+            article.setAddress("Phnom penh");
             articleService.update(id);
             String message = Constant.SUCCESSFUL;
-        } else {
-            String message = Constant.FAIL;
+            System.out.println("Update is "+ message);
         }
     }
 }

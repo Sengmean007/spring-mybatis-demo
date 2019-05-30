@@ -12,13 +12,13 @@ public interface ArticleService {
 
     List<Article> findAll();
 
-    List<Article> saveArticle(Article article);
+    void saveArticle(Article article);
 
-    boolean update(int id);
+    void update(int id);
 
     List<Article> findAllarticle();
 
-    boolean deleteById(int id);
+    void deleteById(String id);
 
     Article findById(int id);
 }

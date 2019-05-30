@@ -38,26 +38,25 @@ public class ArticleRepositoryImp implements ArticleRepository {
     }
 
     @Override
-    public List<Article> saveArticle(Article article) {
+    public void saveArticle(Article article) {
         Article article1 = new Article();
         article1.setId(article.getId());
         article1.setName(article.getName());
         article1.setGender(article.getGender());
         article1.setAddress(article.getAddress());
         article1.setPhone(article.getPhone());
-        return null;
+        return ;
     }
 
     @Override
-    public boolean update(int id) {
+    public void update(int id) {
         articles.get(id);
-        return false;
     }
 
     @Override
-    public boolean deleteById(int id) {
+    public void deleteById(String id) {
        articles.remove(id);
-       return false;
+
     }
 
     @Override

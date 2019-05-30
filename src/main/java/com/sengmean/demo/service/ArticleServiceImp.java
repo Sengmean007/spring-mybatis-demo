@@ -27,13 +27,13 @@ public class ArticleServiceImp implements ArticleService {
     }
 
     @Override
-    public List<Article> saveArticle(Article article) {
-        return articleRepository.saveArticle(article);
+    public void saveArticle(Article article) {
+        articleRepository.saveArticle(article);
     }
 
     @Override
-    public boolean update(int id) {
-        return articleRepository.update(id);
+    public void update(int id) {
+        articleRepository.update(id);
     }
 
     @Override
@@ -42,8 +42,8 @@ public class ArticleServiceImp implements ArticleService {
     }
 
     @Override
-    public boolean deleteById(int id) {
-       return articleRepository.deleteById(id);
+    public void deleteById(String id) {
+       articleRepository.deleteById(id);
     }
 
     @Override

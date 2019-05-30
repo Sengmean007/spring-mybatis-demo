@@ -46,13 +46,13 @@ public interface ArticleRepository {
             @Result(property = "address", column = "address"),
             @Result(property = "phone", column = "phone")
     })
-    List<Article> saveArticle(Article article);
+    void saveArticle(Article article);
 
     @Update("update table articles set (name =#{name}, gender =#{gender}, address =#{address}, phone =#{phone where id =#{id}})")
-    boolean update(int id);
+    void update(int id);
 
     @Delete(value = "Delete from articles where id =#{id}")
-    boolean deleteById(int id);
+    void deleteById(String id);
 
 
 }
