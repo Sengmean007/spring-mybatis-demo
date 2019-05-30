@@ -35,7 +35,7 @@ public class Articlecontroller {
    @RequestMapping
     public ResponseEntity getAll(){
         List<Article> articles = articleService.findAllarticle();
-        return new ResponseEntity(articles, HttpStatus.MULTI_STATUS.OK);
+        return new ResponseEntity(articles, HttpStatus.OK);
     }
 
     /**
@@ -90,7 +90,7 @@ public class Articlecontroller {
      * @param id
      */
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-    public void updateArticle(int id) {
+    public ResponseEntity<?> updateArticle(int id) {
         articleService.findById(id);
         Article article = new Article();
         if ((article.getId() == 0) || (article.equals("") )){
@@ -100,13 +100,13 @@ public class Articlecontroller {
             article.setPhone("0987676564");
             articleService.saveArticle(article);
             String message = Constant.SUCCESSFUL;
-            System.out.println("Save "+ message);
+            return new ResponseEntity<>("Save "+ message, HttpStatus.OK);
         } else {
             article.setName("Hot Dara");
             article.setAddress("Phnom penh");
             articleService.update(id);
             String message = Constant.SUCCESSFUL;
-            System.out.println("Update is "+ message);
+            return new ResponseEntity<>("Update"+message, HttpStatus.OK);
         }
     }
 }
