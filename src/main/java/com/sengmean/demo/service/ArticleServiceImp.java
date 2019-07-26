@@ -42,7 +42,7 @@ public class ArticleServiceImp implements ArticleService {
     }
 
     @Override
-    public void deleteById(String id) {
+    public void deleteById(Integer id) {
        articleRepository.deleteById(id);
     }
 

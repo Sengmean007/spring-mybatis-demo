@@ -52,7 +52,7 @@ public interface ArticleRepository {
     void update(int id);
 
     @Delete(value = "Delete from articles where id =#{id}")
-    void deleteById(String id);
+    void deleteById(Integer id);
 
 
 }

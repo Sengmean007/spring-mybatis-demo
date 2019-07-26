@@ -18,7 +18,7 @@ public interface ArticleService {
 
     List<Article> findAllarticle();
 
-    void deleteById(String id);
+    void deleteById(Integer id);
 
     Article findById(int id);
 }

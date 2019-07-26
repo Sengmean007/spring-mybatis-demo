@@ -45,7 +45,7 @@ public class ArticleRepositoryImp implements ArticleRepository {
         article1.setGender(article.getGender());
         article1.setAddress(article.getAddress());
         article1.setPhone(article.getPhone());
-        return ;
+
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ArticleRepositoryImp implements ArticleRepository {
     }
 
     @Override
-    public void deleteById(String id) {
+    public void deleteById(Integer id) {
        articles.remove(id);
 
     }
