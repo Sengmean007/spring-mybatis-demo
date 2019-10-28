@@ -29,9 +29,9 @@ public class Articlecontroller {
      * Get all Article
      * @return
      */
-   @RequestMapping("")
+   @RequestMapping("/list")
     public ResponseEntity<?> getAll(){
-        List<Article> articles = articleService.findAllarticle();
+        List<Article> articles = articleService.findAll();
         return new ResponseEntity<>(articles, HttpStatus.OK);
     }
 
@@ -77,14 +77,15 @@ public class Articlecontroller {
      * @return
      */
     @PostMapping(value = "/add")
-    public ResponseEntity<?> createArticle(Article article) {
-        article.setName("Sengmean");
-        article.setGender("Male");
-        article.setAddress("Kampong cham");
-        article.setPhone("0965090007");
+    public ResponseEntity<Article> createArticle(Article article) {
+
+//        article.setName(article.getName());
+//        article.setGender(article.getGender());
+//        article.setAddress(article.getAddress());
+//        article.setPhone(article.getPhone());
         articleService.saveArticle(article);
         String message = Constant.SUCCESSFUL;
-       return new ResponseEntity<>(article, HttpStatus.OK);
+       return new ResponseEntity<Article>(article, HttpStatus.OK);
     }
 
     /**

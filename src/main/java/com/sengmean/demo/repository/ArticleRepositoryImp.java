@@ -2,13 +2,10 @@
 package com.sengmean.demo.repository;
 
 import com.sengmean.demo.model.Article;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * Sengmean on 01/04/2019
@@ -33,19 +30,13 @@ public class ArticleRepositoryImp implements ArticleRepository {
     }
 
     @Override
-    public List<Article> findAllarticle() {
-        return articles;
-    }
-
-    @Override
-    public void saveArticle(Article article) {
+    public Article saveArticle(Article article) {
         Article article1 = new Article();
-        article1.setId(article.getId());
         article1.setName(article.getName());
         article1.setGender(article.getGender());
         article1.setAddress(article.getAddress());
         article1.setPhone(article.getPhone());
-
+    return article;
     }
 
     @Override

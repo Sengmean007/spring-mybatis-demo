@@ -12,11 +12,9 @@ public interface ArticleService {
 
     List<Article> findAll();
 
-    void saveArticle(Article article);
+    Article saveArticle(Article article);
 
     void update(int id);
-
-    List<Article> findAllarticle();
 
     void deleteById(Integer id);
 

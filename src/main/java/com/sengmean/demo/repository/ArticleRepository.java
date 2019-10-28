@@ -25,30 +25,13 @@ public interface ArticleRepository {
     })
     List<Article> findAll();
 
-    @Select(value = "select id, name, gender, address, phone from articles")
-    @Results({
-            @Result(property = "id", column = "id"),
-            @Result(property = "name", column = "name"),
-            @Result(property = "gender", column = "gender"),
-            @Result(property = "address", column = "address"),
-            @Result(property = "phone", column = "phone")
-    })
-    List<Article> findAllarticle();
-
     @Select(value = "select id, name, address, gender, phone from articles where id =#{id}")
     Article findById(int id);
 
-    @Select(value = "insert id, name, gender, address, phone into articles")
-    @Results({
-            @Result(property = "id", column = "id"),
-            @Result(property = "name", column = "name"),
-            @Result(property = "gender", column = "gender"),
-            @Result(property = "address", column = "address"),
-            @Result(property = "phone", column = "phone")
-    })
-    void saveArticle(Article article);
+    @Insert(value = "insert into articles values(name =#{name}, gender =#{gender}, address =#{address}, phone =#{phone})")
+    Article saveArticle(Article article);
 
-    @Update("update table articles set (name =#{name}, gender =#{gender}, address =#{address}, phone =#{phone where id =#{id}})")
+    @Update("update table articles set (name =#{name}, gender =#{gender}, address =#{address}, phone =#{phone} where id =#{id})")
     void update(int id);
 
     @Delete(value = "Delete from articles where id =#{id}")

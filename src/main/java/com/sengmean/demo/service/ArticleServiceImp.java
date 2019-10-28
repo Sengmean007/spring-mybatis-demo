@@ -27,18 +27,13 @@ public class ArticleServiceImp implements ArticleService {
     }
 
     @Override
-    public void saveArticle(Article article) {
-        articleRepository.saveArticle(article);
+    public Article saveArticle(Article article) {
+       return articleRepository.saveArticle(article);
     }
 
     @Override
     public void update(int id) {
         articleRepository.update(id);
-    }
-
-    @Override
-    public List<Article> findAllarticle() {
-        return articleRepository.findAllarticle();
     }
 
     @Override
