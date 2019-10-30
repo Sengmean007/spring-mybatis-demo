@@ -15,13 +15,13 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/article")
-public class Articlecontroller {
+public class ArticleController {
 
     private ArticleService articleService;
     private Article article;
 
     @Autowired
-    public Articlecontroller(ArticleService articleService ) {
+    public ArticleController(ArticleService articleService ) {
         this.articleService = articleService;
     }
 
