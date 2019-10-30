@@ -76,13 +76,14 @@ public class Articlecontroller {
      * @param article
      * @return
      */
-    @PostMapping(value = "/add")
+//    @PostMapping(value = "/add")
+    @RequestMapping(value = "/add", method = RequestMethod.PUT)
     public ResponseEntity<Article> createArticle(Article article) {
 
-//        article.setName(article.getName());
-//        article.setGender(article.getGender());
-//        article.setAddress(article.getAddress());
-//        article.setPhone(article.getPhone());
+        article.setName(article.getName());
+        article.setGender(article.getGender());
+        article.setAddress(article.getAddress());
+        article.setPhone(article.getPhone());
         articleService.saveArticle(article);
         String message = Constant.SUCCESSFUL;
        return new ResponseEntity<Article>(article, HttpStatus.OK);

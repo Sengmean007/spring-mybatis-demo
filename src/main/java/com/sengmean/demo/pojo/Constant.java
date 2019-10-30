@@ -13,7 +13,13 @@ public class Constant {
      * @param msg
      * @return
      */
-    protected String message(String msg) {
+    protected String showMessage(String msg) {
+        if (msg.equals(SUCCESSFUL)){
+            return msg;
+        }
+        if (msg.equals(FAIL)){
+            return msg;
+        }
         return msg;
     }
 }
