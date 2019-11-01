@@ -76,7 +76,6 @@ public class ArticleController {
      * @param article
      * @return
      */
-//    @PostMapping(value = "/add")
     @RequestMapping(value = "/add", method = RequestMethod.PUT)
     public ResponseEntity<Article> createArticle(Article article) {
 
