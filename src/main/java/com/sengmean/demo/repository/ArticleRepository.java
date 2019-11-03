@@ -28,7 +28,7 @@ public interface ArticleRepository {
     @Select(value = "select id, name, address, gender, phone from articles where id =#{id}")
     Article findById(int id);
 
-    @Insert(value = "insert into articles values(name =#{name}, gender =#{gender}, address =#{address}, phone =#{phone})")
+    @Insert(value = "insert into articles(name, gender, address, phone) values(name =#{name}, gender =#{gender}, address =#{address}, phone =#{phone})")
     Article saveArticle(Article article);
 
     @Update("update table articles set (name =#{name}, gender =#{gender}, address =#{address}, phone =#{phone} where id =#{id})")

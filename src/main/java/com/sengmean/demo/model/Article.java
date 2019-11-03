@@ -1,11 +1,13 @@
 package com.sengmean.demo.model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 
 /**
  * Sengmean 01/04/2019
  */
+@Entity
 public class Article {
 
     @Id
@@ -23,7 +25,6 @@ public class Article {
     public Article(){
         super();
     }
-
    public Article(int id, String name, String gender, String address, String phone) {
         this.id = id;
         this.name = name;
