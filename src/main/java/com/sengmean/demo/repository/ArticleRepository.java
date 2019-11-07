@@ -3,6 +3,7 @@ package com.sengmean.demo.repository;
 import com.sengmean.demo.model.Article;
 import org.apache.ibatis.annotations.*;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
