@@ -2,7 +2,6 @@ package com.sengmean.demo.model;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 public class Users {
@@ -28,7 +27,6 @@ public class Users {
     public Users(String username, String password,String email, Date create_at) {
         this.username = username;
         this.password = password;
-//        this.roles = roles;
         this.email = email;
         this.create_at = create_at;
     }
@@ -52,14 +50,6 @@ public class Users {
     public void setPassword(String password) {
         this.password = password;
     }
-//
-//    public List<Role> getRoles() {
-//        return roles;
-//    }
-//
-//    public void setRoles(List<Role> roles) {
-//        this.roles = roles;
-//    }
 
     public String getEmail() {
         return email;
@@ -79,5 +69,16 @@ public class Users {
 
     public String getUsername() {
         return username;
+    }
+
+    @Override
+    public String toString() {
+        return "Users{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", create_at=" + create_at +
+                '}';
     }
 }

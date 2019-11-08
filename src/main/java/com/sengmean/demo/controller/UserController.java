@@ -5,10 +5,10 @@ import com.sengmean.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -17,7 +17,7 @@ public class UserController {
 
     private UserService service;
     private Users users;
-
+    List<Users> usersList = new ArrayList<>();
     public UserController(){}
 
     @Autowired
@@ -25,21 +25,11 @@ public class UserController {
         this.service = service;
     }
 
-    /**
-     *
-     * @return
-     */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ResponseEntity<?> list(ModelMap model){
         List<Users> usersList = service.findAll();
         model.addAttribute("users", users);
         return new ResponseEntity<>(usersList, HttpStatus.OK);
-    }
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public String listq(ModelMap model){
-        List<Users> users = service.findAll();
-        model.addAttribute("users", users);
-        return "user";
     }
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public String userPage(ModelMap model){
@@ -47,38 +37,57 @@ public class UserController {
         return "user";
     }
 
-//    /**
-//     *
-//     * @param username
-//     * @return
-//     */
-//    @RequestMapping(value = "/{name}", method = RequestMethod.GET)
-//    public ResponseEntity<?> findByName(@PathVariable("name") String username){
-//        users = service.findByUsername(username);
-//        if (users.equals(null) || users.equals("")) {
-//
-//            return new ResponseEntity<>(users, HttpStatus.NO_CONTENT);
-//        } else {
-//            System.out.println(users);
-//            return new ResponseEntity<>(users, HttpStatus.FOUND);
-//        }
-//    }
-
-    @RequestMapping(value = "/{username}", method = RequestMethod.GET)
-    public String findByUsername(ModelMap m, @RequestParam("username") String username){
-        Users user = service.findByUsername(username);
-        System.out.println(user.getUsername());
-        m.addAttribute("user", user);
-        return "user";
+    @GetMapping(value = "/u/{username}")
+    public Users findByUsername(ModelMap map, @PathVariable("username") String username) throws NullPointerException {
+        try {
+            users = service.findByUsername(username);
+            if (users.getUsername() != username) {
+                System.out.println("User is existed ");
+                System.out.println("UserName is : "+username);
+                return users;
+            } else {
+                System.out.println("User Not found ");
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+           return null;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> searchById(@PathVariable("id") Integer id) {
-        Users user = service.findById(id);
-        if (user != null){
-            return new ResponseEntity<>(users, HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(users, HttpStatus.FOUND);
+    public Users searchById(@PathVariable("id") Integer id) throws NullPointerException{
+//        Users user = service.findById(id);
+        try {
+            usersList = service.findAll();
+            for (Users u: usersList)
+            if (u.getId() == id) {
+                System.out.println("User id found id is " + id);
+                System.out.println("User is existed "+u);
+                return u = service.findById(id);
+            }else {
+                System.out.println("User not found...");
+                return null;
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
+    public void remove(@PathVariable("id") Integer id) throws NullPointerException{
+//        Users user = service.findById(id);
+        try {
+            usersList = service.findAll();
+            for (Users u: usersList)
+            if (u.getId() == id) {
+                System.out.println("Success...!");
+                service.deleteById(id);
+            } else {
+                System.out.println("User not found");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }
