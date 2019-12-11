@@ -22,7 +22,7 @@ public class Users {
      *
      * @param username
      * @param password
-     * @param roles
+//     * @param roles
      */
     public Users(String username, String password,String email, Date create_at) {
         this.username = username;
@@ -67,8 +67,8 @@ public class Users {
         this.create_at = create_at;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUsername(String username) {
+        return this.username;
     }
 
     @Override

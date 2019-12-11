@@ -16,7 +16,7 @@ import java.util.List;
 public class UserController {
 
     private UserService service;
-    private Users users;
+    private Users user;
     List<Users> usersList = new ArrayList<>();
     public UserController(){}
 
@@ -28,9 +28,9 @@ public class UserController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ResponseEntity<?> list(ModelMap model){
         List<Users> usersList = service.findAll();
-        for (Users users : usersList) {
-            if (users != null) {
-                model.addAttribute("users", users);
+        for (Users user : usersList) {
+            if (user != null) {
+                model.addAttribute("users", user);
                 System.out.print("List all user /n :" +"/n"+usersList);
                 return new ResponseEntity<>(usersList, HttpStatus.OK);
             } else {
@@ -42,28 +42,27 @@ public class UserController {
     }
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public String userPage(ModelMap model){
-        model.addAttribute("users", users);
+        model.addAttribute("users", user);
         return "user";
     }
 
     @GetMapping(value = "/u/{username}")
     public Users findByUsername(ModelMap map, @PathVariable("username") String username) throws NullPointerException {
         try {
-            usersList = service.findAll();
             if ((username == null) || (username.equals(""))) {
                 System.out.println("Please input username..! ");
                 return null;
             } else {
-                for (Users u: usersList)
-                    users = service.findByUsername(username);
-
-                if (users.getUsername() == username){
-                    System.out.println("User Not found "+ users);
-                    return users;
-                } else {
-                    System.out.println("User Not found "+ username);
-                    return null;
-                }
+                String u;
+                for (Users user: usersList)
+                    if (user.equals(usersList.toString())){
+                        System.out.println("User is found "+ user);
+//                        service.findByUsername(username);
+                        return user;
+                    } else {
+                        System.out.println("User Not found "+ username);
+                        return null;
+                    }
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -74,12 +73,12 @@ public class UserController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Users searchById(@PathVariable("id") Integer id) throws NullPointerException{
         try {
-            users = service.findById(id);
-            if (users.getId() == id) {
-                System.out.println("User is existed "+users);
-                return users;
+            user = service.findById(id);
+            if (user.getId() == id) {
+                System.out.println("User is existed "+user);
+                return user;
             }else {
-                System.out.println("User not found...");
+                System.out.println("User not found..." +user);
                 return null;
             }
         } catch (Exception e){
@@ -87,11 +86,12 @@ public class UserController {
         }
         return null;
     }
+
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
     public void remove(@PathVariable("id") Integer id) throws NullPointerException{
-        users = service.findById(id);
+        user = service.findById(id);
         try {
-            if (users.getId() == id) {
+            if (user.getId() == id) {
                 System.out.println("Success...!");
                 service.deleteById(id);
             } else {
