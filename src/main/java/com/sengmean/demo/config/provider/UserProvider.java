@@ -8,7 +8,7 @@ import org.apache.ibatis.jdbc.SQL;
 public class UserProvider {
 
     /**
-     *
+     * Get all user name
      * @return
      */
     public String findAll(){
@@ -20,7 +20,7 @@ public class UserProvider {
     }
 
     /**
-     *
+     * Get User by Id
      * @return
      */
     public String findById(){

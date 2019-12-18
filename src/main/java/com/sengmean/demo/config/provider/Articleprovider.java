@@ -2,6 +2,9 @@ package com.sengmean.demo.config.provider;
 
 import org.apache.ibatis.jdbc.SQL;
 
+/**
+ * Created by Sengmean 25 Nov 2019
+ */
 public class Articleprovider {
 
     public String findAll() {
