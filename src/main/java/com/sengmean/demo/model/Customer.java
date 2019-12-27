@@ -1,36 +1,31 @@
 package com.sengmean.demo.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
- * Sengmean 01/04/2019
+ * Created by Sengmean 24 Dec 2019
  */
 @Entity
-public class Article {
+public class Customer {
 
     @Id
+    @GeneratedValue
     private int id;
-
-    @Column(name = "name")
     private String name;
-    @Column(name = "gender")
     private String gender;
-    @Column(name = "address")
-    private String address;
-    @Column(name = "phone")
     private String phone;
+    private String address;
 
-    public Article(){
-        super();
-    }
-   public Article(int id, String name, String gender, String address, String phone) {
+    public Customer(){}
+
+    public Customer(int id, String name, String gender, String phone, String address) {
         this.id = id;
         this.name = name;
         this.gender = gender;
-        this.address = address;
         this.phone = phone;
+        this.address = address;
     }
 
     public int getId() {
@@ -57,14 +52,6 @@ public class Article {
         this.gender = gender;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getPhone() {
         return phone;
     }
@@ -73,14 +60,22 @@ public class Article {
         this.phone = phone;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     @Override
     public String toString() {
-        return "Article{" +
+        return "Customer{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", gender='" + gender + '\'' +
-                ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
                 '}';
     }
 }

@@ -14,6 +14,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private UserRepository repo;
+
     @Autowired
     public UserServiceImpl(UserRepository repo) {
         this.repo = repo;
@@ -41,8 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Users findByUsername(String username) {
-        Users user = repo.findByUsername(username);
-        return user;
+        return repo.findByUsername(username);
     }
 
     @Override

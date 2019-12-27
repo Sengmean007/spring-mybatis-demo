@@ -18,6 +18,7 @@ public class UserController {
     private UserService service;
     private Users user;
     List<Users> usersList = new ArrayList<>();
+
     public UserController(){}
 
     @Autowired
@@ -47,17 +48,13 @@ public class UserController {
     }
 
     @GetMapping(value = "/u/{username}")
-    public Users findByUsername(ModelMap map, @PathVariable("username") String username) throws NullPointerException {
+    public Users findByUsername(ModelMap map, @PathVariable("username") String username) {
         try {
             if ((username == null) || (username.equals(""))) {
-                System.out.println("Please input username..! ");
                 return null;
             } else {
-                String u;
-                for (Users user: usersList)
-                    if (user.equals(usersList.toString())){
+                if (user == service.findByUsername(username)){
                         System.out.println("User is found "+ user);
-//                        service.findByUsername(username);
                         return user;
                     } else {
                         System.out.println("User Not found "+ username);

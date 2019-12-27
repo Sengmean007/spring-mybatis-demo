@@ -10,19 +10,22 @@ import java.util.List;
 
 @Repository
 public interface UserRepository {
+
     @SelectProvider(method = "findAll", type = UserProvider.class)
     List<Users> findAll();
 
-    @Select(value = "select * from users where username = #{username}")
+    @SelectProvider(method = "findByUserName", type = UserProvider.class)
     Users findByUsername(String username);
 
+    @SelectProvider(method = "save", type = UserProvider.class)
     Users save(Users users);
 
+    @SelectProvider(method = "update", type = UserProvider.class)
     void update(int id);
 
+    @SelectProvider(method = "delete", type = UserProvider.class)
     void deleteById(Integer id);
 
-//    @Select(value = "select * from users where id = #{id}")
     @SelectProvider(method = "findById", type = UserProvider.class)
     Users findById(int id);
 }
