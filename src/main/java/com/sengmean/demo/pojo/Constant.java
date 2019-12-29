@@ -5,7 +5,7 @@ package com.sengmean.demo.pojo;
  */
 public class Constant {
 
-    public static final String SUCCESSFUL = "successful";
+    public static final String SUCCESSFUL = "successfully";
     public static final String FAIL = "fail";
 
     /**

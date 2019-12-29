@@ -22,7 +22,7 @@ public interface CustomerRepository {
     @SelectProvider(method = "findAll", type = CustomerProvider.class)
     List<Customer> findAll();
 
-    @Select(value = "select id, name, address, gender, phone from customer where id =#{id}")
+    @SelectProvider(method = "findById", type = CustomerProvider.class)
     Customer findById(int id);
 
     @Insert(value = "insert into customer(name, gender, address, phone) values(name =#{name}, gender =#{gender}, address =#{address}, phone =#{phone})")
@@ -31,8 +31,11 @@ public interface CustomerRepository {
     @Update("update table customer set (name =#{name}, gender =#{gender}, address =#{address}, phone =#{phone} where id =#{id})")
     void update(int id);
 
-    @Delete(value = "Delete from customer where id =#{id}")
-    void delete(Integer id);
+    @DeleteProvider(method = "remove", type = CustomerProvider.class)
+    void delete(int id);
+
+    @SelectProvider(method = "findByUsername", type = CustomerProvider.class)
+    Customer findByUsername(String userName);
 
 
 }

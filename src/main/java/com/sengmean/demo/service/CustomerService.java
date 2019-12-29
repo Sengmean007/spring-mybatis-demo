@@ -16,9 +16,11 @@ public interface CustomerService {
 
     void update(int id);
 
-    void delete(Integer id);
+    void delete(int id);
 
     Customer findById(int id);
+
+    Customer findByUserName(String userName);
 }
 
 

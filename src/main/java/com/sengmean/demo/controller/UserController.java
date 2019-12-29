@@ -1,7 +1,9 @@
 package com.sengmean.demo.controller;
 
 import com.sengmean.demo.model.Users;
+import com.sengmean.demo.pojo.Constant;
 import com.sengmean.demo.service.UserService;
+import org.apache.ibatis.annotations.DeleteProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,9 +55,10 @@ public class UserController {
             if ((username == null) || (username.equals(""))) {
                 return null;
             } else {
-                if (user == service.findByUsername(username)){
-                        System.out.println("User is found "+ user);
-                        return user;
+                for(Users users: usersList)
+                if (users.getUsername(username).equals(username)){
+                        System.out.println("User is found "+ username);
+                        return users;
                     } else {
                         System.out.println("User Not found "+ username);
                         return null;
@@ -84,15 +87,15 @@ public class UserController {
         return null;
     }
 
-    @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
+    @DeleteMapping(value = "/remove/{id}")
     public void remove(@PathVariable("id") Integer id) throws NullPointerException{
-        user = service.findById(id);
         try {
+            user = service.findById(id);
             if (user.getId() == id) {
-                System.out.println("Success...!");
+                System.out.println(Constant.SUCCESSFUL);
                 service.deleteById(id);
             } else {
-                System.out.println("User not found");
+                System.out.println("User not found "+Constant.FAIL);
             }
         }catch (Exception e){
             e.printStackTrace();
