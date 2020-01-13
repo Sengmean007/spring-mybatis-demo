@@ -44,14 +44,14 @@ public class CustomerProvider {
         }}.toString();
     }
 
-    /**
-     * To remove customer
-     * @return
-     */
-    public String remove(){
-        return new SQL(){{
-            DELETE_FROM("customer");
-            WHERE("id = #{id}");
-        }}.toString();
-    }
+//    /**
+//     * To remove customer
+//     * @return
+//     */
+//    public String remove(){
+//        return new SQL(){{
+//            DELETE_FROM("customer");
+//            WHERE("id = #{id}");
+//        }}.toString();
+//    }
 }

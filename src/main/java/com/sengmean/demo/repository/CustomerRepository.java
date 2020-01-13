@@ -25,13 +25,13 @@ public interface CustomerRepository {
     @SelectProvider(method = "findById", type = CustomerProvider.class)
     Customer findById(int id);
 
-    @Insert(value = "insert into customer(name, gender, address, phone) values(name =#{name}, gender =#{gender}, address =#{address}, phone =#{phone})")
-    Customer save(Customer customer);
+    @Insert(value = "INSERT INTO customer(name, gender, address, phone) VALUES(#{name}, #{gender}, #{address}, #{phone})")
+    void save(Customer customer);
 
-    @Update("update table customer set (name =#{name}, gender =#{gender}, address =#{address}, phone =#{phone} where id =#{id})")
-    void update(int id);
+    @Update("UPDATE customer SET name =#{name}, gender =#{gender}, address =#{address}, phone =#{phone} where id = #{id}")
+    void update(Customer customer);
 
-    @DeleteProvider(method = "remove", type = CustomerProvider.class)
+    @Delete(value = "delete from customer where id = #{id}")
     void delete(int id);
 
     @SelectProvider(method = "findByUsername", type = CustomerProvider.class)

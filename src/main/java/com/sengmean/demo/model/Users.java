@@ -13,13 +13,10 @@ public class Users {
     private String email;
     private String password;
     private Date create_at;
-//    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    private List<Role> roles;
 
     Users(){}
 
     /**
-     *
      * @param username
      * @param password
 //     * @param roles

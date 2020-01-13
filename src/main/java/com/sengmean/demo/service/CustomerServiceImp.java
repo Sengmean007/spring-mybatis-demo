@@ -27,13 +27,13 @@ public class CustomerServiceImp implements CustomerService {
     }
 
     @Override
-    public Customer saveArticle(Customer customer) {
-        return customerRepository.save(customer);
+    public void saveArticle(Customer customer) {
+        customerRepository.save(customer);
     }
 
     @Override
-    public void update(int id) {
-        customerRepository.update(id);
+    public void update(Customer customer) {
+        customerRepository.update(customer);
     }
 
     @Override

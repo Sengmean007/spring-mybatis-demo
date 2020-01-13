@@ -3,7 +3,7 @@ package com.sengmean.demo.controller;
 import com.sengmean.demo.model.Customer;
 import com.sengmean.demo.pojo.Constant;
 import com.sengmean.demo.service.CustomerService;
-import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.session.SqlSessionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +23,8 @@ public class CustomerController {
     private CustomerService customerService;
     private Customer customer;
 
-    private static final String  MESSAGE_SUCCESS = Constant.SUCCESSFUL;
-    private static final String  MESSAGE_FAIL = Constant.FAIL;
+    private static final String MESSAGE_SUCCESS = Constant.SUCCESSFUL;
+    private static final String MESSAGE_FAIL = Constant.FAIL;
 
     @Autowired
     public CustomerController(CustomerService customerService) {
@@ -33,10 +33,11 @@ public class CustomerController {
 
     /**
      * Get all Customer
+     *
      * @return
      */
-   @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ResponseEntity<?> getAll(){
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public ResponseEntity<?> getAll() {
         List<Customer> customers = customerService.findAll();
         if (customers.size() > 0) {
             System.out.println(MESSAGE_SUCCESS);
@@ -48,6 +49,7 @@ public class CustomerController {
 
     /**
      * To get Customer
+     *
      * @param id
      * @return
      */
@@ -57,24 +59,25 @@ public class CustomerController {
             if (id != null || !id.equals("")) {
                 customer = customerService.findById(id);
                 if (customer.getId() == id) {
-                    System.out.println("Customer is founded"+" "+ MESSAGE_SUCCESS);
+                    System.out.println("Customer is founded" + " " + MESSAGE_SUCCESS);
                     return new ResponseEntity<Customer>(customer, HttpStatus.OK);
                 } else {
-                    System.out.println("Not founded Customer"+" "+ MESSAGE_FAIL);
+                    System.out.println("Not founded Customer" + " " + MESSAGE_FAIL);
                     return new ResponseEntity<Customer>(customer, HttpStatus.BAD_REQUEST);
                 }
             } else {
-                System.out.println("Not founded Customer"+ MESSAGE_FAIL);
+                System.out.println("Not founded Customer" + MESSAGE_FAIL);
                 return new ResponseEntity<Customer>(customer, HttpStatus.BAD_REQUEST);
             }
         } catch (NullPointerException ex) {
             ex.printStackTrace();
         }
-        return new ResponseEntity<Customer>(customer, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(customer, HttpStatus.BAD_REQUEST);
     }
 
     /**
      * To find customer by Customer Name
+     *
      * @param map
      * @param name
      * @return
@@ -86,15 +89,15 @@ public class CustomerController {
                 return null;
             } else {
                 customer = customerService.findByUserName(name);
-                    if (customer.getName().equals(name)){
-                        System.out.println("User is found "+ name +" "+ MESSAGE_SUCCESS);
-                        return new ResponseEntity<>(customer, HttpStatus.OK);
-                    } else {
-                        System.out.println("User Not found "+ name +" "+ MESSAGE_FAIL);
-                        return new ResponseEntity<>(customer, HttpStatus.BAD_GATEWAY);
-                    }
+                if (customer.getName().equals(name)) {
+                    System.out.println("User is found " + name + " " + MESSAGE_SUCCESS);
+                    return new ResponseEntity<>(customer, HttpStatus.OK);
+                } else {
+                    System.out.println("User Not found " + name + " " + MESSAGE_FAIL);
+                    return new ResponseEntity<>(customer, HttpStatus.BAD_GATEWAY);
+                }
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return new ResponseEntity<>(customer, HttpStatus.BAD_GATEWAY);
@@ -102,62 +105,74 @@ public class CustomerController {
 
     /**
      * To deleted customer
+     *
      * @param id
      */
-    @DeleteMapping(value = "/remove/{id}")
-    public void remove(@PathVariable("id") Integer id) {
-        if (id != null || !id.equals(" ")){
-             findOne(id);
-            if (customer.getId() == id) {
-                customerService.delete(id);
-                System.out.println("Deleted " + MESSAGE_SUCCESS);
-            } else {
-                System.out.println("Delete " + MESSAGE_FAIL);
+    @RequestMapping(value = "/remove/{id}", method = {RequestMethod.GET, RequestMethod.DELETE})
+    public ResponseEntity<Customer> remove(@PathVariable("id") Integer id) throws NullPointerException {
+        try {
+            if (id != null || !id.equals(" ")) {
+                Customer customer1 = customerService.findById(id);
+                if (customer1.getId() == id) {
+                    customerService.delete(id);
+                    System.out.println("Deleted " + MESSAGE_SUCCESS);
+                } else {
+                    System.out.println("Delete " + MESSAGE_FAIL);
+                }
             }
-        } else {
-            System.out.println("Delete " + MESSAGE_FAIL);
+        } catch (NullPointerException ex) {
+            ex.getMessage();
         }
+
+        return new ResponseEntity<>(customer, HttpStatus.OK);
     }
-//
-//    /**
-//     * To created new article
-//     * @param article
-//     * @return
-//     */
-//    @RequestMapping(value = "/add", method = RequestMethod.PUT)
-//    public ResponseEntity<Article> createArticle(Article article) {
-//
-//        article.setName(article.getName());
-//        article.setGender(article.getGender());
-//        article.setAddress(article.getAddress());
-//        article.setPhone(article.getPhone());
-//        articleService.saveArticle(article);
-//        String message = Constant.SUCCESSFUL;
-//       return new ResponseEntity<Article>(article, HttpStatus.OK);
-//    }
 
     /**
-     * To update article by id
+     * To update customer by existing id
      * @param id
+     * @return as customer
+     * @throws SqlSessionException
      */
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> update(Integer id) {
-        customerService.findById(id);
-        Customer customer = new Customer();
-        if ((customer.getId() == 0) || (customer.equals("") )){
-            customer.setName("Hot news");
-            customer.setAddress("Phnom penh");
-            customer.setGender("Male");
-            customer.setPhone("0987676564");
-            customerService.saveArticle(customer);
-            String message = Constant.SUCCESSFUL;
-            return new ResponseEntity<>("Save "+ message, HttpStatus.OK);
-        } else {
-            customer.setName("Hot Dara");
-            customer.setAddress("Phnom penh");
-            customerService.update(id);
-            String message = Constant.SUCCESSFUL;
-            return new ResponseEntity<>("Update"+message, HttpStatus.OK);
+    @RequestMapping(value = "/update/{id}", method = {RequestMethod.GET, RequestMethod.POST})
+    public ResponseEntity<Customer> update(@PathVariable("id") Integer id) throws SqlSessionException, NullPointerException{
+        try {
+            if (id != 0 || !id.equals(" ")) {
+                Customer customer = customerService.findById(id);
+                if (customer.getId() == id) {
+                    customer.setName("Sopheary Man");
+                    customer.setGender("Female");
+                    customerService.update(customer);
+                    Customer updateCustomer = customerService.findById(id);
+                    String message = Constant.SUCCESSFUL;
+                    System.out.println(message);
+                    return new ResponseEntity<>(updateCustomer, HttpStatus.OK);
+                }
+            }  else {
+                return new ResponseEntity<>(customer, HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
         }
+
+        return null;
+    }
+
+    /**
+     * To add new customer
+     * @param customer
+     * @return
+     */
+    @RequestMapping(value = "/add/customer/", method = {RequestMethod.POST, RequestMethod.GET})
+    @ResponseBody
+    public ResponseEntity<?> save(@RequestBody Customer customer) {
+        List<Customer> addByTwo = new ArrayList<>();
+        customer.setName("NariTa");
+        customer.setGender("Female");
+        customer.setAddress("Phnom Penh, Cambodia");
+        customer.setPhone("0987676564");
+        customerService.saveArticle(customer);
+        Customer customer1;
+        customer1 = customerService.findById(customer.getId());
+        return new ResponseEntity<>(customer1, HttpStatus.OK);
     }
 }

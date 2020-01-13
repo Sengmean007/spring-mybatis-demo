@@ -12,9 +12,9 @@ public interface CustomerService {
 
     List<Customer> findAll();
 
-    Customer saveArticle(Customer customer);
+    void saveArticle(Customer customer);
 
-    void update(int id);
+    void update(Customer customer);
 
     void delete(int id);
 
