@@ -22,6 +22,7 @@ public class CustomerController {
 
     private CustomerService customerService;
     private Customer customer;
+    private List<Customer> customers = new ArrayList<>();
 
     private static final String MESSAGE_SUCCESS = Constant.SUCCESSFUL;
     private static final String MESSAGE_FAIL = Constant.FAIL;
@@ -88,9 +89,10 @@ public class CustomerController {
             if ((name == null) || (name.equals(""))) {
                 return null;
             } else {
-                customer = customerService.findByUserName(name);
-                if (customer.getName().equals(name)) {
+                for (Customer customer1: customers)
+                if (customer1.getName().equals(name)) {
                     System.out.println("User is found " + name + " " + MESSAGE_SUCCESS);
+                     customerService.findByUserName(name);
                     return new ResponseEntity<>(customer, HttpStatus.OK);
                 } else {
                     System.out.println("User Not found " + name + " " + MESSAGE_FAIL);

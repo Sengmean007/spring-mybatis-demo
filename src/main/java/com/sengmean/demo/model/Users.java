@@ -64,7 +64,7 @@ public class Users {
         this.create_at = create_at;
     }
 
-    public String getUsername(String username) {
+    public String getUsername() {
         return this.username;
     }
 

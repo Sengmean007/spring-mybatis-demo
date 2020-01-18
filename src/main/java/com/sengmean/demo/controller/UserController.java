@@ -56,7 +56,7 @@ public class UserController {
                 return null;
             } else {
                 for(Users users: usersList)
-                if (users.getUsername(username).equals(username)){
+                if (users.getUsername().equals(username)){
                         System.out.println("User is found "+ username);
                         return users;
                     } else {
