@@ -33,8 +33,7 @@ public class CustomerController {
     }
 
     /**
-     * Get all Customer
-     *
+     * To get all Customers
      * @return
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -50,7 +49,6 @@ public class CustomerController {
 
     /**
      * To get Customer
-     *
      * @param id
      * @return
      */
@@ -107,7 +105,6 @@ public class CustomerController {
 
     /**
      * To deleted customer
-     *
      * @param id
      */
     @RequestMapping(value = "/remove/{id}", method = {RequestMethod.GET, RequestMethod.DELETE})
@@ -136,12 +133,12 @@ public class CustomerController {
      * @throws SqlSessionException
      */
     @RequestMapping(value = "/update/{id}", method = {RequestMethod.GET, RequestMethod.POST})
-    public ResponseEntity<Customer> update(@PathVariable("id") Integer id) throws SqlSessionException, NullPointerException{
+    public ResponseEntity<Customer> update(@PathVariable("id") Integer id) throws SqlSessionException, NullPointerException {
         try {
             if (id != 0 || !id.equals(" ")) {
                 Customer customer = customerService.findById(id);
                 if (customer.getId() == id) {
-                    customer.setName("Sopheary Man");
+                    customer.setName("Golder Man");
                     customer.setGender("Female");
                     customerService.update(customer);
                     Customer updateCustomer = customerService.findById(id);

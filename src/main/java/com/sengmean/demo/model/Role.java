@@ -1,14 +1,11 @@
 package com.sengmean.demo.model;
 
-import java.util.Date;
-
 public class Role {
     private int id;
     private String role_name;
     private int user_Id;
 
     /**
-     *
      * @param id
      * @param role_name
      * @param user_Id
