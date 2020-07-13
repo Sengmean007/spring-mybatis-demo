@@ -1,7 +1,6 @@
 package com.sengmean.demo.config.provider;
 
 import com.sun.tracing.ProviderName;
-import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.jdbc.SQL;
 
 /**
