@@ -87,10 +87,9 @@ public class CustomerController {
             if ((name == null) || (name.equals(""))) {
                 return null;
             } else {
-                for (Customer customer1: customers)
-                if (customer1.getName().equals(name)) {
+                customer = customerService.findByUserName(name);
+                if (name.equals(customer.getName())) {
                     System.out.println("User is found " + name + " " + MESSAGE_SUCCESS);
-                     customerService.findByUserName(name);
                     return new ResponseEntity<>(customer, HttpStatus.OK);
                 } else {
                     System.out.println("User Not found " + name + " " + MESSAGE_FAIL);

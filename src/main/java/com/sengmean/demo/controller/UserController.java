@@ -3,7 +3,6 @@ package com.sengmean.demo.controller;
 import com.sengmean.demo.model.Users;
 import com.sengmean.demo.pojo.Constant;
 import com.sengmean.demo.service.UserService;
-import org.apache.ibatis.annotations.DeleteProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,15 +52,14 @@ public class UserController {
     public Users findByUsername(ModelMap map, @PathVariable("username") String username) {
         try {
             if ((username == null) || (username.equals(""))) {
+                System.out.println(username + "not existed...!");
                 return null;
             } else {
-                for(Users users: usersList)
-                if (users.getUsername().equals(username)){
-                        System.out.println("User is found "+ username);
-                        return users;
-                    } else {
-                        System.out.println("User Not found "+ username);
-                        return null;
+                    user = service.findByUsername(username);
+                if (username.equals(user.getUsername())){
+                    System.out.println("User is found "+ username);
+                    System.out.println("Found : "+user);
+                        return user;
                     }
             }
         } catch (Exception e){
