@@ -163,7 +163,7 @@ public class CustomerController {
         List<Customer> cus = new ArrayList<>();
         cus = customerService.findAll();
         for (int i = cus.size(); i <= cus.size(); i ++) {
-            customer.setId(i);
+//            customer.setId(i + 1);
             customer.setName("Sengmean");
             customer.setGender("Female");
             customer.setAddress("Phnom Penh, Cambodia");

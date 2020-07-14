@@ -12,7 +12,7 @@ public class Users {
     private String username;
     private String email;
     private String password;
-    private Date create_at;
+    private String create_at;
 
     Users(){}
 
@@ -21,7 +21,7 @@ public class Users {
      * @param password
 //     * @param roles
      */
-    public Users(String username, String password,String email, Date create_at) {
+    public Users(String username, String password,String email, String create_at) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -56,11 +56,11 @@ public class Users {
         this.email = email;
     }
 
-    public Date getCreate_at() {
+    public String getCreate_at() {
         return create_at;
     }
 
-    public void setCreate_at(Date create_at) {
+    public void setCreate_at(String create_at) {
         this.create_at = create_at;
     }
 

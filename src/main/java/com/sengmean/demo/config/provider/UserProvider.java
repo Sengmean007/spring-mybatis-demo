@@ -46,4 +46,49 @@ public class UserProvider {
             ORDER_BY("id ASC");
         }}.toString();
     }
+
+    /**
+     * To remove user
+     * @return
+     */
+    public String remove(){
+        return new SQL(){{
+            DELETE_FROM("users");
+            WHERE("id = #{id}");
+        }}.toString();
+    }
+
+    /**
+     * To add user
+     * @return
+     */
+    public String save() {
+        return new SQL(){{
+            INSERT_INTO("users");
+            VALUES("username, email, password, create_at", "#{username}, #{email}, #{password}, #{create_at}");
+            ORDER_BY("id ASC");
+        }
+        }.toString();
+    }
+
+    /**
+     * To update user
+     * @return
+     */
+    public String update() {
+        return new SQL() {
+            {
+                UPDATE("users");
+                SET("username = #{username}",
+                        "email = #{email}",
+                        "password = #{password}",
+                        "create_at = #{create_at}");
+                WHERE("id = #{id}");
+                ORDER_BY("id ASC");
+            }
+
+            private void VALUES(String username, String email, String password, String create_at) {
+            }
+        }.toString();
+    }
 }

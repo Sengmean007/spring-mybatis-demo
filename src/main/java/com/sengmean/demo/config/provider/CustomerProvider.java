@@ -3,6 +3,7 @@ package com.sengmean.demo.config.provider;
 import com.sun.tracing.ProviderName;
 import org.apache.ibatis.jdbc.SQL;
 
+
 /**
  * Created by Sengmean 25 Nov 2019
  */
@@ -14,15 +15,19 @@ public class CustomerProvider {
      * @return
      */
     public String findAll() {
-        return new SQL(){{
+        return new SQL() {{
             SELECT("id, name, gender, address, phone");
             FROM("customer");
             ORDER_BY("id ASC");
         }}.toString();
     }
 
-    public String findById(){
-        return new SQL(){{
+    /**
+     * To get customer by id
+     * @return
+     */
+    public String findById() {
+        return new SQL() {{
             SELECT("id, name, gender, address, phone");
             FROM("customer");
             WHERE("id = #{id}");
@@ -34,8 +39,8 @@ public class CustomerProvider {
      * Get User by Id
      * @return
      */
-    public String findByUsername(){
-        return new SQL(){{
+    public String findByUsername() {
+        return new SQL() {{
             SELECT("id, name, gender, address, phone");
             FROM("customer");
             WHERE("name like #{name}");
@@ -47,26 +52,44 @@ public class CustomerProvider {
      * To remove customer
      * @return
      */
-    public String remove(){
-        return new SQL(){{
+    public String remove() {
+        return new SQL() {{
             DELETE_FROM("customer");
             WHERE("id = #{id}");
         }}.toString();
     }
 
     /**
-     * To get all customers
+     * To update customers
      * @return
      */
-    public String save() {
-        return new SQL(){{
-            INSERT_INTO("customer");
-            VALUES("name = #{name}", "gender = #{gender}", "address = #{address}", "phone = #{phone}");
-            ORDER_BY("id ASC");
-        }
+    public String update() {
+        return new SQL() {
+            {
+                UPDATE("customer");
+                SET("name = #{name}",
+                        "gender = #{gender}",
+                        "address = #{address}",
+                        "phone = #{phone}");
+                WHERE("id = #{id}");
+                ORDER_BY("id ASC");
+            }
+
             private void VALUES(String name, String gender, String address, String phone) {
             }
         }.toString();
     }
 
+    /**
+     * To add customers
+     * @return
+     */
+    public String save() {
+        return new SQL(){{
+            INSERT_INTO("customer");
+            VALUES("name, gender, address, phone" , "#{name}, #{gender},  #{address}, #{phone}");
+            ORDER_BY("id ASC");
+        }
+        }.toString();
+    }
 }
