@@ -86,9 +86,6 @@ public class UserProvider {
                 WHERE("id = #{id}");
                 ORDER_BY("id ASC");
             }
-
-            private void VALUES(String username, String email, String password, String create_at) {
-            }
         }.toString();
     }
 }
