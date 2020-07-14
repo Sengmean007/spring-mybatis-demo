@@ -38,7 +38,7 @@ public class CustomerProvider {
         return new SQL(){{
             SELECT("id, name, gender, address, phone");
             FROM("customer");
-            WHERE("name = #{name}");
+            WHERE("name like #{name}");
             ORDER_BY("id ASC");
         }}.toString();
     }

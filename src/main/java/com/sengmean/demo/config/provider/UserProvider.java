@@ -29,7 +29,7 @@ public class UserProvider {
         return new SQL(){{
             SELECT("id, username, email, password, create_At");
             FROM("users");
-            WHERE("id = #{id}");
+            WHERE("id like #{id}");
             ORDER_BY("id ASC");
         }}.toString();
     }
