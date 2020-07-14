@@ -76,7 +76,6 @@ public class CustomerController {
 
     /**
      * To find customer by Customer Name
-     *
      * @param map
      * @param name
      * @return
@@ -151,7 +150,6 @@ public class CustomerController {
         } catch (Exception e){
             e.printStackTrace();
         }
-
         return null;
     }
 
@@ -160,17 +158,18 @@ public class CustomerController {
      * @param customer
      * @return
      */
-    @RequestMapping(value = "/add/customer/", method = {RequestMethod.POST, RequestMethod.GET})
-    @ResponseBody
-    public ResponseEntity<?> save(@RequestBody Customer customer) {
-        List<Customer> addByTwo = new ArrayList<>();
-        customer.setName("NariTa");
-        customer.setGender("Female");
-        customer.setAddress("Phnom Penh, Cambodia");
-        customer.setPhone("0987676564");
-        customerService.saveArticle(customer);
-        Customer customer1;
-        customer1 = customerService.findById(customer.getId());
-        return new ResponseEntity<>(customer1, HttpStatus.OK);
+    @RequestMapping(value = "/add", method = {RequestMethod.POST, RequestMethod.GET})
+    public Customer save( Customer customer) {
+        List<Customer> cus = new ArrayList<>();
+        cus = customerService.findAll();
+        for (int i = cus.size(); i <= cus.size(); i ++) {
+            customer.setId(i);
+            customer.setName("Sengmean");
+            customer.setGender("Female");
+            customer.setAddress("Phnom Penh, Cambodia");
+            customer.setPhone("0987676564");
+            customerService.save(customer);
+        }
+        return customer;
     }
 }

@@ -43,14 +43,30 @@ public class CustomerProvider {
         }}.toString();
     }
 
-//    /**
-//     * To remove customer
-//     * @return
-//     */
-//    public String remove(){
-//        return new SQL(){{
-//            DELETE_FROM("customer");
-//            WHERE("id = #{id}");
-//        }}.toString();
-//    }
+    /**
+     * To remove customer
+     * @return
+     */
+    public String remove(){
+        return new SQL(){{
+            DELETE_FROM("customer");
+            WHERE("id = #{id}");
+        }}.toString();
+    }
+
+    /**
+     * To get all customers
+     * @return
+     */
+    public String save() {
+        return new SQL(){{
+            INSERT_INTO("customer");
+            VALUES("name = #{name}", "gender = #{gender}", "address = #{address}", "phone = #{phone}");
+            ORDER_BY("id ASC");
+        }
+            private void VALUES(String name, String gender, String address, String phone) {
+            }
+        }.toString();
+    }
+
 }

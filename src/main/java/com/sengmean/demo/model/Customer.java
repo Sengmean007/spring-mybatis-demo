@@ -20,6 +20,14 @@ public class Customer {
 
     public Customer(){}
 
+    /**
+     *
+     * @param id
+     * @param name
+     * @param gender
+     * @param phone
+     * @param address
+     */
     public Customer(int id, String name, String gender, String phone, String address) {
         this.id = id;
         this.name = name;
