@@ -87,7 +87,7 @@ public class CustomerController {
                 return null;
             } else {
                 customer = customerService.findByUserName(name);
-                if (name.equals(customer.getName())) {
+                if (customer.equals(name)) {
                     System.out.println("User is found " + name + " " + MESSAGE_SUCCESS);
                     return new ResponseEntity<>(customer, HttpStatus.OK);
                 } else {
