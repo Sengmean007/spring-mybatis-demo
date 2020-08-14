@@ -7,6 +7,13 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
 
 import javax.sql.DataSource;
 import java.util.EmptyStackException;
@@ -36,4 +43,5 @@ public class MybatisConfig {
     public DataSourceTransactionManager dataSourceTransactionManager() throws EmptyStackException{
         return new DataSourceTransactionManager(dataSource);
     }
+
 }

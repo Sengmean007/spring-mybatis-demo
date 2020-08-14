@@ -1,12 +1,16 @@
 package com.sengmean.demo.service;
 
+import com.sengmean.demo.model.Role;
 import com.sengmean.demo.model.Users;
 import com.sengmean.demo.repository.UserRepository;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
-
 /**
  * Created by Sengmean 5 Nov 2019
  */
@@ -49,4 +53,11 @@ public class UserServiceImpl implements UserService {
     public Users findById(int id) {
         return repo.findById(id);
     }
+
+    @Override
+    public boolean isUserAlreadyPresent(Users user) {
+        return false;
+    }
+
+
 }

@@ -105,7 +105,7 @@ public class CustomerController {
      * To deleted customer
      * @param id
      */
-    @RequestMapping(value = "/remove/{id}", method = {RequestMethod.GET, RequestMethod.DELETE})
+    @RequestMapping(value = "/remove/{id}", method = {RequestMethod.DELETE})
     public ResponseEntity<Customer> remove(@PathVariable("id") Integer id) throws NullPointerException {
         try {
             if (id != null || !id.equals(" ")) {
@@ -130,7 +130,7 @@ public class CustomerController {
      * @return as customer
      * @throws SqlSessionException
      */
-    @RequestMapping(value = "/update/{id}", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/update/{id}", method = {RequestMethod.PUT})
     public ResponseEntity<Customer> update(@PathVariable("id") Integer id) throws SqlSessionException, NullPointerException {
         try {
             if (id != 0 || !id.equals(" ")) {
@@ -158,7 +158,7 @@ public class CustomerController {
      * @param customer
      * @return
      */
-    @RequestMapping(value = "/add", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/add", method = {RequestMethod.POST})
     public Customer save( Customer customer) {
         List<Customer> cus = new ArrayList<>();
         cus = customerService.findAll();

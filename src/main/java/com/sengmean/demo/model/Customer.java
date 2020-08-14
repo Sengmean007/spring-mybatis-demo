@@ -1,12 +1,17 @@
 package com.sengmean.demo.model;
 
+import io.swagger.annotations.ApiModel;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Created by Sengmean 24 Dec 2019
  */
+@ApiModel(description = "To create a customer")
+@Table(name = "customer")
 @Entity
 public class Customer {
 

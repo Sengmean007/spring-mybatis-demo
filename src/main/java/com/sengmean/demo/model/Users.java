@@ -1,9 +1,14 @@
 package com.sengmean.demo.model;
 
+import io.swagger.annotations.ApiModel;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
+@ApiModel(description = "To create a user")
 @Entity
+@Table(name = "users")
 public class Users {
 
     @Id
@@ -13,6 +18,7 @@ public class Users {
     private String email;
     private String password;
     private String create_at;
+    private String status;
 
     Users(){}
 
@@ -26,6 +32,14 @@ public class Users {
         this.password = password;
         this.email = email;
         this.create_at = create_at;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public int getId() {
@@ -67,6 +81,18 @@ public class Users {
     public String getUsername() {
         return this.username;
     }
+
+//    public Set<Role> getRoles() {
+//        return roles;
+//    }
+//
+//    public void setRoles(Set<Role> roles) {
+//        this.roles = roles;
+//    }
+
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name = "auth_user_role", joinColumns = @JoinColumn(name = "auth_user_id"), inverseJoinColumns = @JoinColumn(name = "auth_role_id"))
+//    private Set<Role> roles;
 
     @Override
     public String toString() {

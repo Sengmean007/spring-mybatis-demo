@@ -31,6 +31,11 @@ public class UserController {
         this.service = service;
     }
 
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    public ResponseEntity<?> logIn(ModelMap model){
+        return null;
+    }
+
     /**
      * To get all users
      * @param model
@@ -52,16 +57,16 @@ public class UserController {
         return null;
     }
 
-    /**
-     * To get user
-     * @param model
-     * @return
-     */
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public String userPage(ModelMap model){
-        model.addAttribute("users", user);
-        return "user";
-    }
+//    /**
+//     * To get user
+//     * @param model
+//     * @return
+//     */
+//    @RequestMapping(value = "/user", method = RequestMethod.GET)
+//    public String userPage(ModelMap model){
+//        model.addAttribute("users", user);
+//        return "user";
+//    }
 
     /**
      * To find user by username
@@ -117,7 +122,7 @@ public class UserController {
      * @param id
      * @throws NullPointerException
      */
-    @RequestMapping(value = "/remove/{id}", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/remove/{id}", method = {RequestMethod.DELETE})
     public void remove(@PathVariable("id") Integer id) throws NullPointerException{
         try {
             user = service.findById(id);
@@ -139,7 +144,7 @@ public class UserController {
      * @throws SqlSessionException
      * @throws NullPointerException
      */
-    @RequestMapping(value = "/update/{id}", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/update/{id}", method = {RequestMethod.PUT})
     public ResponseEntity<Users> update(@PathVariable("id") Integer id) throws SqlSessionException, NullPointerException {
         try {
             if (id != 0 || !id.equals(" ")) {
@@ -167,7 +172,7 @@ public class UserController {
      * @param users
      * @return
      */
-    @RequestMapping(value = "/add", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/add", method = {RequestMethod.POST})
     public Users save( Users users) {
         List<Users> userlist = new ArrayList<>();
         userlist = service.findAll();

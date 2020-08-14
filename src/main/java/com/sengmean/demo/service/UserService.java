@@ -1,6 +1,7 @@
 package com.sengmean.demo.service;
 
 import com.sengmean.demo.model.Users;
+import org.apache.catalina.User;
 
 import java.util.List;
 
@@ -17,4 +18,7 @@ public interface UserService {
     Users findByUsername(String username);
 
     Users findById(int id);
+
+    boolean isUserAlreadyPresent(Users user);
+
 }
