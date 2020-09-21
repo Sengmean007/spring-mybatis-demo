@@ -81,24 +81,24 @@ public class CustomerController {
      * @return
      */
     @GetMapping(value = "/name/{name}")
-    public ResponseEntity<Customer> findByUsername(ModelMap map, @PathVariable("name") String name) {
+    public ResponseEntity<List<Customer>> findByUsername(ModelMap map, @PathVariable("name") String name) {
         try {
             if ((name == null) || (name.equals(""))) {
                 return null;
             } else {
-                customer = customerService.findByUserName(name);
+                customers = customerService.findByUserName(name, 30, 1);
                 if (customer.equals(name)) {
                     System.out.println("User is found " + name + " " + MESSAGE_SUCCESS);
-                    return new ResponseEntity<>(customer, HttpStatus.OK);
+                    return new ResponseEntity<List<Customer>>(customers, HttpStatus.OK);
                 } else {
                     System.out.println("User Not found " + name + " " + MESSAGE_FAIL);
-                    return new ResponseEntity<>(customer, HttpStatus.BAD_GATEWAY);
+                    return new ResponseEntity<List<Customer>>(customers, HttpStatus.BAD_GATEWAY);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResponseEntity<>(customer, HttpStatus.BAD_GATEWAY);
+        return new ResponseEntity<List<Customer>>(customers, HttpStatus.BAD_GATEWAY);
     }
 
     /**

@@ -3,14 +3,13 @@ package com.sengmean.demo.controller;
 import com.sengmean.demo.model.Users;
 import com.sengmean.demo.pojo.Constant;
 import com.sengmean.demo.service.UserService;
+import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import org.apache.ibatis.session.SqlSessionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,67 +30,66 @@ public class UserController {
         this.service = service;
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public ResponseEntity<?> logIn(ModelMap model){
-        return null;
+    /**
+     * To login
+     * @param password
+     * @return
+     * @throws MessagingException
+     */
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ResponseEntity<Users> logIn(@RequestParam("name") Integer id,
+                                       @RequestParam("password") String password) throws MessagingException {
+        if ((id != null && password != null)|| (!id.equals(" ") && !password.equals(" "))){
+            user = service.findById(id);
+            if ((user.getUsername().equals(id)) && user.getPassword().equals(password)){
+                System.out.println("You are logging in...!");
+                return new  ResponseEntity<Users> (user, HttpStatus.ACCEPTED);
+            }
+        }
+        return new ResponseEntity<>(user, HttpStatus.BAD_REQUEST);
     }
 
     /**
      * To get all users
-     * @param model
      * @return
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ResponseEntity<?> list(ModelMap model){
+    public ResponseEntity<?> list(){
         List<Users> usersList = service.findAll();
-        for (Users user : usersList) {
-            if (user != null) {
-                model.addAttribute("users", user);
-                System.out.print("List all user /n :" +"/n"+usersList);
-                return new ResponseEntity<>(usersList, HttpStatus.OK);
-            } else {
-                System.out.println("User doesn't existed..!");
+        if (usersList.size() > 0) {
+            for (Users user : usersList) {
+                System.out.print("List all user /n :" + "/n" + usersList);
                 return new ResponseEntity<>(usersList, HttpStatus.OK);
             }
         }
-        return null;
+        System.out.println("User doesn't existed..!");
+        return new ResponseEntity<>(usersList, HttpStatus.BAD_REQUEST);
     }
-
-//    /**
-//     * To get user
-//     * @param model
-//     * @return
-//     */
-//    @RequestMapping(value = "/user", method = RequestMethod.GET)
-//    public String userPage(ModelMap model){
-//        model.addAttribute("users", user);
-//        return "user";
-//    }
 
     /**
      * To find user by username
-     * @param map
      * @param username
      * @return
      */
-    @GetMapping(value = "/u/{username}")
-    public Users findByUsername(ModelMap map, @PathVariable("username") String username) {
+    @RequestMapping (value = "/name/{username}", method = RequestMethod.GET)
+    public ResponseEntity<List<Users>> findByUsername(@PathVariable("username") String username) throws NullPointerException {
         try {
-            if ((username == null) || (username.equals(""))) {
-                System.out.println(username + "not existed...!");
-                return null;
-            } else {
-                    user = service.findByUsername(username);
-                if (username.equals(user.getUsername())){
-                    System.out.println("User is found "+ username);
-                    System.out.println("Found : "+user);
-                        return user;
+            if ((username != null) || (!username.equals(""))) {
+                usersList = service.getAllByUsername(username);
+                if (usersList.size() > 0)
+                    for (Users user : usersList)
+                    {
+                        System.out.println("Finding is : " + username);
+                        System.out.println("Found : " + usersList);
+                        return new ResponseEntity<>(usersList, HttpStatus.OK);
                     }
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        System.out.println("Finding is : " + username);
+        System.out.println(username + " not existed...!");
+        return new ResponseEntity<>(usersList, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -103,18 +101,16 @@ public class UserController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Users searchById(@PathVariable("id") Integer id) throws NullPointerException{
         try {
-            user = service.findById(id);
-            if (user.getId() == id) {
-                System.out.println("User is existed "+user);
+            if (id != null || !id.equals("")){
+                user = service.findById(id);
+                System.out.println("User is : "+user);
                 return user;
-            }else {
-                System.out.println("User not found..." +user);
-                return null;
             }
         } catch (Exception e){
             e.printStackTrace();
         }
-        return null;
+        System.out.println("User not found... " +user);
+        return user;
     }
 
     /**
@@ -125,12 +121,14 @@ public class UserController {
     @RequestMapping(value = "/remove/{id}", method = {RequestMethod.DELETE})
     public void remove(@PathVariable("id") Integer id) throws NullPointerException{
         try {
-            user = service.findById(id);
-            if (user.getId() == id) {
-                System.out.println(Constant.SUCCESSFUL);
-                service.deleteById(id);
-            } else {
-                System.out.println("User not found "+Constant.FAIL);
+            if (id != null || !id.equals("")) {
+                user = service.findById(id);
+                if (user != null) {
+                    System.out.println(Constant.SUCCESSFUL);
+                    service.deleteById(id);
+                } else {
+                    System.out.println("User not found "+Constant.FAIL);
+                }
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -138,52 +136,65 @@ public class UserController {
     }
 
     /**
-     *
+     * To update and save user
      * @param id
-     * @return
      * @throws SqlSessionException
      * @throws NullPointerException
      */
-    @RequestMapping(value = "/update/{id}", method = {RequestMethod.PUT})
+    @RequestMapping(value = "/update/{id}", method = { RequestMethod.PUT})
     public ResponseEntity<Users> update(@PathVariable("id") Integer id) throws SqlSessionException, NullPointerException {
         try {
-            if (id != 0 || !id.equals(" ")) {
+            if (id != null || !id.equals("")) {
                 user = service.findById(id);
-                if (user.getId() == id) {
+                if (user != null)
                     user.setUsername("Golder Man");
                     user.setEmail("sopheary.kea@gmail.com");
-                    service.update(id);
-                    user = service.findById(id);
-                    String message = Constant.SUCCESSFUL;
-                    System.out.println(message);
-                    return new ResponseEntity<>(user, HttpStatus.OK);
+                    user.setCreate_at("2020-09-03 17:37:48");
+                    user = service.update(id);
+//                    return new ResponseEntity<>(user, HttpStatus.OK);
                 }
-            }  else {
-                return new ResponseEntity<>(user, HttpStatus.NO_CONTENT);
-            }
-        } catch (Exception e){
+            }catch (Exception e){
             e.printStackTrace();
         }
-        return null;
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    /**
-     * To Add user
-     * @param users
-     * @return
-     */
-    @RequestMapping(value = "/add", method = {RequestMethod.POST})
-    public Users save( Users users) {
-        List<Users> userlist = new ArrayList<>();
-        userlist = service.findAll();
-        for (int i = userlist.size(); i <= userlist.size(); i ++) {
-            users.setId(i + 1);
-            users.setUsername("Sengmean123");
-            users.setEmail("male");
-            users.setPassword("1q2w3e4r5t");
-            users.setCreate_at("2020-07-13 17:37:48");
+
+//    @RequestMapping(value = "/add", method = {RequestMethod.POST})
+//    public Users save( Users users, @RequestParam("username") String username,
+//                       @RequestParam("email")String email,
+//                       @RequestParam("password") String password) {
+//        List<Users> userlist;
+//        userlist = service.findAll();
+//        for (int i = userlist.size(); i <= userlist.size(); i ++) {
+//            users.setId(i + 1);
+//            users.setUsername("Seng monkol");
+//            users.setEmail("sengmonkol@gmail.com");
+//            users.setPassword("1q2w3e4r5t");
+//            users.setCreate_at("2020-0-23 17:37:48");
+//            service.save(users);
+//        }
+//        return users;
+//    }
+@RequestMapping(value = "/add", method = {RequestMethod.POST})
+public Users save(@RequestBody List<Users> users) throws NullPointerException {
+
+    Users user = new Users();
+    users = service.findAll();
+    try {
+        for (int i = users.size(); i < users.size(); i++) {
+            user.setId(i + 1);
+            user.setUsername("Mongkol");
+            user.setEmail("Mongkol@gmail.com");
+            user.setPassword("1q2w3e4r5t");
+            users.add(user);
+            service.save((List<Users>) user);
             service.save(users);
         }
-        return users;
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+
+    return user;
+}
 }

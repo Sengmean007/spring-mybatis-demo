@@ -20,7 +20,7 @@ public interface CustomerService {
 
     Customer findById(int id);
 
-    Customer findByUserName(String userName);
+    List<Customer> findByUserName(String userName ,int limit, int offset);
 }
 
 

@@ -3,8 +3,6 @@ package com.sengmean.demo.model;
 import io.swagger.annotations.ApiModel;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.Set;
 
 @ApiModel(description = "To create a user")
 @Entity
@@ -14,13 +12,17 @@ public class Users {
     @Id
     @GeneratedValue
     private int id;
+    @Column(name = "username")
     private String username;
+    @Column(name = "email")
     private String email;
+    @Column(name = "password")
     private String password;
+
     private String create_at;
     private String status;
 
-    Users(){}
+    public Users(){}
 
     /**
      * @param username

@@ -47,6 +47,15 @@ public class UserProvider {
         }}.toString();
     }
 
+    public String getAllByUsername(){
+        return new SQL(){{
+            SELECT("id, username, email, password, create_At");
+            FROM("users");
+            WHERE("username LIKE #{username}");
+            ORDER_BY("id ASC");
+        }}.toString();
+    }
+
     /**
      * To remove user
      * @return
@@ -65,7 +74,7 @@ public class UserProvider {
     public String save() {
         return new SQL(){{
             INSERT_INTO("users");
-            VALUES("username, email, password, create_at", "#{username}, #{email}, #{password}, #{create_at}");
+            VALUES("username, email, password, create_At", "#{username}, #{email}, #{password}, #{create_At}");
             ORDER_BY("id ASC");
         }
         }.toString();
@@ -76,8 +85,7 @@ public class UserProvider {
      * @return
      */
     public String update() {
-        return new SQL() {
-            {
+        return new SQL() {{
                 UPDATE("users");
                 SET("username = #{username}",
                         "email = #{email}",

@@ -2,7 +2,7 @@ package com.sengmean.demo.repository;
 
 import com.sengmean.demo.config.provider.UserProvider;
 import com.sengmean.demo.model.Users;
-import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.springframework.stereotype.Repository;
 
@@ -14,14 +14,15 @@ public interface UserRepository {
     @SelectProvider(method = "findAll", type = UserProvider.class)
     List<Users> findAll();
 
-    @SelectProvider(method = "findByUsername", type = UserProvider.class)
-    Users findByUsername(String username);
+    @SelectProvider(method = "getAllByUsername", type = UserProvider.class)
+    List<Users> searchByUsername(String username);
 
     @SelectProvider(method = "save", type = UserProvider.class)
-    void save(Users users);
+    List<Users> save(List<Users> users);
 
-    @SelectProvider(method = "update", type = UserProvider.class)
-    void update(int id);
+//    @SelectProvider(method = "update", type = UserProvider.class)
+    @Select("update users set username=#{username}, email=#{email}, password=#{password}, created_at=#{created_at}")
+    Users update(int id);
 
     @SelectProvider(method = "remove", type = UserProvider.class)
     void deleteById(Integer id);
