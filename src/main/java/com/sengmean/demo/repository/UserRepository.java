@@ -2,7 +2,6 @@ package com.sengmean.demo.repository;
 
 import com.sengmean.demo.config.provider.UserProvider;
 import com.sengmean.demo.model.Users;
-import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.springframework.stereotype.Repository;
 
@@ -20,8 +19,7 @@ public interface UserRepository {
     @SelectProvider(method = "save", type = UserProvider.class)
     List<Users> save(List<Users> users);
 
-//    @SelectProvider(method = "update", type = UserProvider.class)
-    @Select("update users set username=#{username}, email=#{email}, password=#{password}, created_at=#{created_at}")
+    @SelectProvider(method = "update", type = UserProvider.class)
     Users update(int id);
 
     @SelectProvider(method = "remove", type = UserProvider.class)
