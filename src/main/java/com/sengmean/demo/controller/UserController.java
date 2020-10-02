@@ -99,18 +99,24 @@ public class UserController {
      * @throws NullPointerException
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Users searchById(@PathVariable("id") Integer id) throws NullPointerException{
+    public Users findOne(@PathVariable("id") Integer id) throws NullPointerException{
         try {
             if (id != null || !id.equals("")){
-                user = service.findById(id);
-                System.out.println("User is : "+user);
-                return user;
+                List<Users> usersList = service.findAll();
+                // Search id in list
+                for (int i = 0; i < usersList.size(); i++) {
+                    if (usersList.get(i).getId() == id) {
+                        user = service.findById(id);
+                        System.out.println("User is : " + user);
+                        return user;
+                    }
+                }
             }
         } catch (Exception e){
             e.printStackTrace();
         }
-        System.out.println("User not found... " +user);
-        return user;
+        System.out.println("User not found... ");
+        return null;
     }
 
     /**
@@ -122,14 +128,18 @@ public class UserController {
     public void remove(@PathVariable("id") Integer id) throws NullPointerException{
         try {
             if (id != null || !id.equals("")) {
-                user = service.findById(id);
-                if (user != null) {
-                    System.out.println(Constant.SUCCESSFUL);
-                    service.deleteById(id);
-                } else {
-                    System.out.println("User not found "+Constant.FAIL);
+                List<Users> usersList = service.findAll();
+                // Search id in list
+                for (int i = 0; i < usersList.size(); i++) {
+                    if (usersList.get(i).getId() == id) {
+                        System.out.println(Constant.SUCCESSFUL);
+                        service.deleteById(id);
+                    }
                 }
+            } else {
+                System.out.println("User not found "+Constant.FAIL);
             }
+
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -142,59 +152,37 @@ public class UserController {
      * @throws NullPointerException
      */
     @RequestMapping(value = "/update/{id}", method = { RequestMethod.PUT})
-    public ResponseEntity<Users> update(@PathVariable("id") Integer id) throws SqlSessionException, NullPointerException {
+    public ResponseEntity<Users> update(@PathVariable("id") Integer id, @RequestBody Users u){
         try {
             if (id != null || !id.equals("")) {
-                user = service.findById(id);
-                if (user != null)
-                    user.setUsername("Golder Man");
-                    user.setEmail("sopheary.kea@gmail.com");
-                    user.setCreate_at("2020-09-03 17:37:48");
-                    user = service.update(id);
-//                    return new ResponseEntity<>(user, HttpStatus.OK);
+                // Search id in list
+                for (int i = 0; i < usersList.size(); i++) {
+                    if (usersList.get(i).getId() == id) {
+                        u = service.update(id);
+                    }
                 }
-            }catch (Exception e){
+                return new ResponseEntity<>(u, HttpStatus.OK);
+            }else {
+                   return null;
+            }
+        } catch (Exception e){
             e.printStackTrace();
         }
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<>(u, HttpStatus.BAD_REQUEST);
     }
 
-
-//    @RequestMapping(value = "/add", method = {RequestMethod.POST})
-//    public Users save( Users users, @RequestParam("username") String username,
-//                       @RequestParam("email")String email,
-//                       @RequestParam("password") String password) {
-//        List<Users> userlist;
-//        userlist = service.findAll();
-//        for (int i = userlist.size(); i <= userlist.size(); i ++) {
-//            users.setId(i + 1);
-//            users.setUsername("Seng monkol");
-//            users.setEmail("sengmonkol@gmail.com");
-//            users.setPassword("1q2w3e4r5t");
-//            users.setCreate_at("2020-0-23 17:37:48");
-//            service.save(users);
-//        }
-//        return users;
-//    }
-@RequestMapping(value = "/add", method = {RequestMethod.POST})
-public Users save(@RequestBody List<Users> users) throws NullPointerException {
-
-    Users user = new Users();
-    users = service.findAll();
-    try {
-        for (int i = users.size(); i < users.size(); i++) {
-            user.setId(i + 1);
-            user.setUsername("Mongkol");
-            user.setEmail("Mongkol@gmail.com");
-            user.setPassword("1q2w3e4r5t");
-            users.add(user);
-            service.save((List<Users>) user);
-            service.save(users);
+    /**
+     * @param user
+     * @return
+     * @throws NullPointerException
+     */
+    @RequestMapping(value = "/add", method = {RequestMethod.POST})
+    public Users save(@RequestBody Users user) throws NullPointerException {
+        if (user != null || !user.equals("")) {
+            service.save(user);
+            return user;
         }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
 
-    return user;
-}
+        return null;
+    }
 }

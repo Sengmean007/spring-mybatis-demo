@@ -8,7 +8,7 @@ public interface UserService {
 
     List<Users> findAll();
 
-    List<Users> save(List<Users> users);
+    void save(Users user);
 
     Users update(int id);
 

@@ -1,13 +1,15 @@
 package com.sengmean.demo.model;
 
 import io.swagger.annotations.ApiModel;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import javax.persistence.*;
 
 @ApiModel(description = "To create a user")
 @Entity
 @Table(name = "users")
-public class Users {
+public class Users implements Pageable {
 
     @Id
     @GeneratedValue
@@ -19,8 +21,12 @@ public class Users {
     @Column(name = "password")
     private String password;
 
-    private String create_at;
+    private String create_At;
     private String status;
+
+    // Pager param
+    private int limit = 20;
+    private int offset = 1;
 
     public Users(){}
 
@@ -29,11 +35,11 @@ public class Users {
      * @param password
 //     * @param roles
      */
-    public Users(String username, String password,String email, String create_at) {
+    public Users(String username, String password,String email, String create_At) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.create_at = create_at;
+        this.create_At = create_At;
     }
 
     public String getStatus() {
@@ -56,6 +62,8 @@ public class Users {
         this.username = username;
     }
 
+
+
     public String getPassword() {
         return password;
     }
@@ -72,12 +80,12 @@ public class Users {
         this.email = email;
     }
 
-    public String getCreate_at() {
-        return create_at;
+    public String getCreate_At() {
+        return create_At;
     }
 
-    public void setCreate_at(String create_at) {
-        this.create_at = create_at;
+    public void setCreate_At(String create_At) {
+        this.create_At = create_At;
     }
 
     public String getUsername() {
@@ -103,8 +111,68 @@ public class Users {
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", create_at=" + create_at +
+                ", create_At=" + create_At +
                 '}';
     }
 
+    /**
+     * User sorted
+     */
+    private Sort sort = new Sort(Sort.Direction.DESC, "id");
+    public Users(int limit, int offset) {
+        if (limit < 1) {
+            throw new IllegalArgumentException("Limit must not be less than one!");
+        }
+        if (offset < 0) {
+            throw new IllegalArgumentException("Offset index must not be less than zero!");
+        }
+        this.limit = limit;
+        this.offset = offset;
+    }
+
+    @Override
+    public int getPageNumber() {
+        return offset / limit;
+    }
+
+    @Override
+    public int getPageSize() {
+        return limit;
+    }
+
+    @Override
+    public long getOffset() {
+        return offset;
+    }
+
+    @Override
+    public Sort getSort() {
+        return sort;
+    }
+
+    @Override
+    public Pageable next() {
+        return new Users(getPageSize(), (int) (getOffset() + getPageSize()));
+    }
+
+    @Override
+    public Pageable previousOrFirst() {
+        return hasPrevious() ? previous() : first();
+    }
+
+    private Pageable previous() {
+        // The integers are positive. Subtracting does not let them become bigger than integer.
+        return hasPrevious() ?
+                new Users(getPageSize(), (int) (getOffset() - getPageSize())): this;
+    }
+
+    @Override
+    public Pageable first() {
+        return new Users(getPageSize(), 1);
+    }
+
+    @Override
+    public boolean hasPrevious() {
+        return offset > limit;
+    }
 }

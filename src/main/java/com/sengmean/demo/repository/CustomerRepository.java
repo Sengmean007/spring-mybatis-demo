@@ -38,5 +38,5 @@ public interface CustomerRepository {
     void delete(int id);
 
     @SelectProvider(method = "findByUsername", type = CustomerProvider.class)
-    List<Customer> findByUsername(String userName, int limit, int offset);
+    List<Customer> findByUsername(String userName);
 }

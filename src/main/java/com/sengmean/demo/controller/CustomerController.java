@@ -7,11 +7,12 @@ import org.apache.ibatis.session.SqlSessionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Sengmean 01/04/2019
@@ -37,14 +38,19 @@ public class CustomerController {
      * @return
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ResponseEntity<?> getAll() {
+    public Map<String, Object> getAll() {
         List<Customer> customers = customerService.findAll();
-        if (customers.size() > 0) {
-            System.out.println(MESSAGE_SUCCESS);
-            return new ResponseEntity<>(customers, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(customers, HttpStatus.BAD_GATEWAY);
+        System.out.println(customers);
+        Map<String, Object> map = new HashMap<>();
+        if (customers.size() < 0) {
+            map.put("code", 400);
+            map.put("MSG", "Notfound");
+            return map;
         }
+        map.put("code", 200);
+        map.put("data", customers);
+        return map;
+
     }
 
     /**
@@ -76,29 +82,28 @@ public class CustomerController {
 
     /**
      * To find customer by Customer Name
-     * @param map
      * @param name
      * @return
      */
     @GetMapping(value = "/name/{name}")
-    public ResponseEntity<List<Customer>> findByUsername(ModelMap map, @PathVariable("name") String name) {
+    public ResponseEntity<List<Customer>> findByUsername(@PathVariable("name") String name) {
         try {
             if ((name == null) || (name.equals(""))) {
                 return null;
             } else {
-                customers = customerService.findByUserName(name, 30, 1);
-                if (customer.equals(name)) {
+                customers = customerService.findByUserName(name);
+                if (customers.size() > 0) {
                     System.out.println("User is found " + name + " " + MESSAGE_SUCCESS);
-                    return new ResponseEntity<List<Customer>>(customers, HttpStatus.OK);
+                    return new ResponseEntity<>(customers, HttpStatus.OK);
                 } else {
                     System.out.println("User Not found " + name + " " + MESSAGE_FAIL);
-                    return new ResponseEntity<List<Customer>>(customers, HttpStatus.BAD_GATEWAY);
+                    return new ResponseEntity<>(customers, HttpStatus.BAD_GATEWAY);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResponseEntity<List<Customer>>(customers, HttpStatus.BAD_GATEWAY);
+        return null;
     }
 
     /**

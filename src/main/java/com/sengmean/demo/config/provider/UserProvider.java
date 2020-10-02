@@ -90,7 +90,7 @@ public class UserProvider {
                 SET("username = #{username}",
                         "email = #{email}",
                         "password = #{password}",
-                        "create_at = #{create_at}");
+                        "create_At = #{create_At}");
                 WHERE("id = #{id}");
                 ORDER_BY("id ASC");
             }

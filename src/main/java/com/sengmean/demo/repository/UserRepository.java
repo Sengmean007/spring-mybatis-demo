@@ -17,7 +17,7 @@ public interface UserRepository {
     List<Users> searchByUsername(String username);
 
     @SelectProvider(method = "save", type = UserProvider.class)
-    List<Users> save(List<Users> users);
+    void save(Users user);
 
     @SelectProvider(method = "update", type = UserProvider.class)
     Users update(int id);

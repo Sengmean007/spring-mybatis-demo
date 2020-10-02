@@ -27,8 +27,8 @@ public class Customer implements Pageable {
     private String address;
 
     // Pager param
-    private int limit;
-    private int offset;
+    private int limit = 20;
+    private int offset = 1;
 
     // Constructor could be expanded if sorting is needed
     private Sort sort = new Sort(Sort.Direction.DESC, "id");
@@ -134,7 +134,7 @@ public class Customer implements Pageable {
 
     @Override
     public Sort getSortOr(Sort sort) {
-        return null;
+        return sort;
     }
 
     @Override
@@ -155,7 +155,7 @@ public class Customer implements Pageable {
 
     @Override
     public Pageable first() {
-        return new Customer(getPageSize(), 0);
+        return new Customer(getPageSize(), 1);
     }
 
     @Override

@@ -47,8 +47,8 @@ public class CustomerServiceImp implements CustomerService {
     }
 
     @Override
-    public List<Customer> findByUserName(String userName, int limit, int offset) {
-        return customerRepository.findByUsername(userName, 30, 0);
+    public List<Customer> findByUserName(String userName) {
+        return customerRepository.findByUsername(userName);
     }
 
 
