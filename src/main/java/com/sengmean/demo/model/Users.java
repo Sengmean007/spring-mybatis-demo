@@ -26,7 +26,7 @@ public class Users implements Pageable {
 
     // Pager param
     private int limit = 20;
-    private int offset = 1;
+    private int offset = 3;
 
     public Users(){}
 
@@ -132,7 +132,7 @@ public class Users implements Pageable {
 
     @Override
     public int getPageNumber() {
-        return offset / limit;
+        return limit / offset;
     }
 
     @Override

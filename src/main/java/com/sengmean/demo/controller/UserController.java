@@ -54,11 +54,11 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ResponseEntity<?> list(){
+    public ResponseEntity<?> list(@RequestParam int limit, @RequestParam int offset){
         List<Users> usersList = service.findAll();
         if (usersList.size() > 0) {
             for (Users user : usersList) {
-                System.out.print("List all user /n :" + "/n" + usersList);
+                System.out.println("Successful..!");
                 return new ResponseEntity<>(usersList, HttpStatus.OK);
             }
         }
