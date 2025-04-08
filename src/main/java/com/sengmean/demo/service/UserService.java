@@ -1,22 +1,24 @@
 package com.sengmean.demo.service;
 
-import com.sengmean.demo.model.Users;
+import com.sengmean.demo.model.User;
 
 import java.util.List;
 
 public interface UserService {
 
-    List<Users> findAll();
+    List<User> findAll();
 
-    void save(Users user);
+    void save(User user);
 
-    Users update(int id);
+    User update(int id);
 
-    void deleteById(Integer id);
+    void remove(int id);
 
-    Users findById(int id);
+    User findById(int id);
 
-    boolean isUserAlreadyPresent(Users user);
+    boolean isUserAlreadyPresent(User user);
 
-    List<Users> getAllByUsername(String username);
+    List<User> getAllByUsername(String username);
+
+    User findUsername(String username);
 }

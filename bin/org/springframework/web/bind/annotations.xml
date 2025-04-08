@@ -1,0 +1,5 @@
+<root>
+    <item name='org.springframework.web.bind.MissingServletRequestParameterException'>
+        <annotation name='java.lang.Deprecated'/>
+    </item>
+</root>

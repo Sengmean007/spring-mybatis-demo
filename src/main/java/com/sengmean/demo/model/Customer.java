@@ -1,8 +1,8 @@
 package com.sengmean.demo.model;
 
 import io.swagger.annotations.ApiModel;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+//import org.springframework.data.domain.Pageable;
+//import org.springframework.data.domain.Sort;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,8 +16,8 @@ import java.util.Optional;
 @ApiModel(description = "To create a customer")
 @Table(name = "customer")
 @Entity
-public class Customer implements Pageable {
-
+//public class Customer implements Pageable {
+    public class Customer  {
     @Id
     @GeneratedValue
     private int id;
@@ -31,7 +31,7 @@ public class Customer implements Pageable {
     private int offset = 1;
 
     // Constructor could be expanded if sorting is needed
-    private Sort sort = new Sort(Sort.Direction.DESC, "id");
+//    private Sort sort = new Sort(Sort.Direction.DESC, "id");
     public Customer(int limit, int offset) {
         if (limit < 1) {
             throw new IllegalArgumentException("Limit must not be less than one!");
@@ -104,69 +104,69 @@ public class Customer implements Pageable {
         return limit;
     }
 
-    @Override
-    public boolean isPaged() {
-        return false;
-    }
-
-    @Override
-    public boolean isUnpaged() {
-        return false;
-    }
-
-    @Override
-    public int getPageNumber() {
-        return offset / limit;
-    }
-
-    @Override
-    public int getPageSize() {
-        return limit;
-    }
-
-    public long getOffset() {
-        return offset;
-    }
-
-    public Sort getSort() {
-        return sort;
-    }
-
-    @Override
-    public Sort getSortOr(Sort sort) {
-        return sort;
-    }
-
-    @Override
-    public Pageable next() {
-        return new Customer(getPageSize(), (int) (getOffset() + getPageSize()));
-    }
-
-    @Override
-    public Pageable previousOrFirst() {
-        return hasPrevious() ? previous() : first();
-    }
-
-    private Pageable previous() {
-        // The integers are positive. Subtracting does not let them become bigger than integer.
-        return hasPrevious() ?
-                new Customer(getPageSize(), (int) (getOffset() - getPageSize())): this;
-    }
-
-    @Override
-    public Pageable first() {
-        return new Customer(getPageSize(), 1);
-    }
-
-    @Override
-    public boolean hasPrevious() {
-        return offset > limit;
-    }
-
-    @Override
-    public Optional<Pageable> toOptional() {
-        return Optional.empty();
-    }
+//    @Override
+//    public boolean isPaged() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isUnpaged() {
+//        return false;
+//    }
+//
+//    @Override
+//    public int getPageNumber() {
+//        return offset / limit;
+//    }
+//
+//    @Override
+//    public int getPageSize() {
+//        return limit;
+//    }
+//
+//    public long getOffset() {
+//        return offset;
+//    }
+//
+//    public Sort getSort() {
+//        return sort;
+//    }
+//
+//    @Override
+//    public Sort getSortOr(Sort sort) {
+//        return sort;
+//    }
+//
+//    @Override
+//    public Pageable next() {
+//        return new Customer(getPageSize(), (int) (getOffset() + getPageSize()));
+//    }
+//
+//    @Override
+//    public Pageable previousOrFirst() {
+//        return hasPrevious() ? previous() : first();
+//    }
+//
+//    private Pageable previous() {
+//        // The integers are positive. Subtracting does not let them become bigger than integer.
+//        return hasPrevious() ?
+//                new Customer(getPageSize(), (int) (getOffset() - getPageSize())): this;
+//    }
+//
+//    @Override
+//    public Pageable first() {
+//        return new Customer(getPageSize(), 1);
+//    }
+//
+//    @Override
+//    public boolean hasPrevious() {
+//        return offset > limit;
+//    }
+//
+//    @Override
+//    public Optional<Pageable> toOptional() {
+//        return Optional.empty();
+//    }
 
     @Override
     public String toString() {

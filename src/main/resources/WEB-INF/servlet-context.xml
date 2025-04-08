@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.23.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1713854428576-4" author="PC (generated)">
+        <createTable tableName="users">
+            <column name="id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_users"/>
+            </column>
+            <column name="username" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="create_time" type="VARCHAR(255)"/>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="limit" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="offset" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1713854428576-5" author="PC (generated)">
+        <addColumn tableName="customer">
+            <column name="limit" type="INT"/>
+            <column name="offset" type="INT"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1713854428576-6" author="PC (generated)">
+        <addNotNullConstraint columnDataType="INT" columnName="limit" tableName="customer"/>
+    </changeSet>
+    <changeSet id="1713854428576-8" author="PC (generated)">
+        <addNotNullConstraint columnDataType="INT" columnName="offset" tableName="customer"/>
+    </changeSet>
+    <changeSet id="1713854428576-9" author="PC (generated)">
+        <dropTable cascadeConstraints="true" tableName="user"/>
+    </changeSet>
+    <changeSet id="1713854428576-10" author="PC (generated)">
+        <dropColumn columnName="create_time" tableName="customer"/>
+    </changeSet>
+    <changeSet id="1713854428576-1" author="PC (generated)">
+        <modifyDataType columnName="name" newDataType="VARCHAR(255)" tableName="customer"/>
+    </changeSet>
+    <changeSet id="1713854428576-2" author="PC (generated)">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="name" tableName="customer"/>
+    </changeSet>
+    <changeSet id="1713854428576-3" author="PC (generated)">
+        <modifyDataType columnName="phone" newDataType="VARCHAR(255)" tableName="customer"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,7 +1,7 @@
 package com.sengmean.demo.repository;
 
 import com.sengmean.demo.config.provider.UserProvider;
-import com.sengmean.demo.model.Users;
+import com.sengmean.demo.model.User;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.springframework.stereotype.Repository;
 
@@ -11,20 +11,31 @@ import java.util.List;
 public interface UserRepository {
 
     @SelectProvider(method = "findAll", type = UserProvider.class)
-    List<Users> findAll();
+//@Select(value = "select id, username, password, email, status from user")
+//@Results({
+//        @Result(property = "id", column = "id"),
+//        @Result(property = "username", column = "username"),
+//        @Result(property = "password", column = "password"),
+//        @Result(property = "email", column = "email"),
+//        @Result(property = "status", column = "status")
+//})
+    List<User> findAll();
 
-    @SelectProvider(method = "getAllByUsername", type = UserProvider.class)
-    List<Users> searchByUsername(String username);
+    @SelectProvider(method = "findByUsername", type = UserProvider.class)
+    List<User> searchByUsername(String username);
+
+    @SelectProvider(method = "getByUsername", type = UserProvider.class)
+    User findUsername(String username);
 
     @SelectProvider(method = "save", type = UserProvider.class)
-    void save(Users user);
+    void save(User user);
 
     @SelectProvider(method = "update", type = UserProvider.class)
-    Users update(int id);
+    User update(int id);
 
     @SelectProvider(method = "remove", type = UserProvider.class)
-    void deleteById(Integer id);
+    void remove(int id);
 
     @SelectProvider(method = "findById", type = UserProvider.class)
-    Users findById(int id);
+    User findById(int id);
 }

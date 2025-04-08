@@ -1,0 +1,30 @@
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User page</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+    <h1>User Management System!</h1>
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Create Date</th>
+            <a href=""></a>
+        </tr>
+        <!--/*@thymesVar id="usersList" type=""*/-->
+        <!--/*@thymesVar id="user" type=""*/-->
+        <tr th:object="user" : ${users} th:object="${user}">
+            <td th:text="*"></td>
+            <td th:text="*"></td>
+            <td th:text="*"></td>
+            <td th:text="*"></td>
+            <td th:text="*"></td>
+        </tr>
+    </table>
+</body>
+</html>

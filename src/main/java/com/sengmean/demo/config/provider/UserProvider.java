@@ -1,34 +1,32 @@
 package com.sengmean.demo.config.provider;
 
-import com.sun.tracing.ProviderName;
 import org.apache.ibatis.jdbc.SQL;
 
 /**
  * Create by Sengmean 5 Nov 2019
  */
-@ProviderName("UserProvider")
 public class UserProvider {
 
     /**
-     * Get all user name
-     * @return
+     * Get all
+     * @return user
      */
     public String findAll(){
         return new SQL(){{
-            SELECT("id, username, email, password, create_At");
-            FROM("users");
+            SELECT("id, username, email, password, status, create_time");
+            FROM("user");
             ORDER_BY("id ASC");
         }}.toString();
     }
 
     /**
      * Get User by Id
-     * @return
+     * @return id
      */
     public String findById(){
         return new SQL(){{
-            SELECT("id, username, email, password, create_At");
-            FROM("users");
+            SELECT("id, username, email, password,status, create_time");
+            FROM("user");
             WHERE("id like #{id}");
             ORDER_BY("id ASC");
         }}.toString();
@@ -36,21 +34,25 @@ public class UserProvider {
 
     /**
      * Get User by Id
-     * @return
+     * @return name
      */
     public String findByUsername(){
         return new SQL(){{
-            SELECT("id, username, email, password, create_At");
-            FROM("users");
+            SELECT("id, username, email, password,status, create_time");
+            FROM("user");
             WHERE("username = #{username}");
             ORDER_BY("id ASC");
         }}.toString();
     }
 
-    public String getAllByUsername(){
+    /**
+     *
+     * @return
+     */
+    public String getByUsername(){
         return new SQL(){{
-            SELECT("id, username, email, password, create_At");
-            FROM("users");
+            SELECT("id, username, email, password, status, create_time");
+            FROM("user");
             WHERE("username LIKE #{username}");
             ORDER_BY("id ASC");
         }}.toString();
@@ -58,23 +60,23 @@ public class UserProvider {
 
     /**
      * To remove user
-     * @return
+     * @return id
      */
     public String remove(){
         return new SQL(){{
-            DELETE_FROM("users");
+            DELETE_FROM("user");
             WHERE("id = #{id}");
         }}.toString();
     }
 
     /**
      * To add user
-     * @return
+     * @return null
      */
     public String save() {
         return new SQL(){{
-            INSERT_INTO("users");
-            VALUES("username, email, password, create_At", "#{username}, #{email}, #{password}, #{create_At}");
+            INSERT_INTO("user");
+            VALUES("username, email, password, status, create_At", "#{username}, #{email}, #{password},#{status} #{create_time}");
             ORDER_BY("id ASC");
         }
         }.toString();
@@ -82,15 +84,16 @@ public class UserProvider {
 
     /**
      * To update user
-     * @return
+     * @return null
      */
     public String update() {
         return new SQL() {{
-                UPDATE("users");
+                UPDATE("user");
                 SET("username = #{username}",
                         "email = #{email}",
                         "password = #{password}",
-                        "create_At = #{create_At}");
+                        "create_time = #{create_time}",
+                		"status = #{status}");
                 WHERE("id = #{id}");
                 ORDER_BY("id ASC");
             }
